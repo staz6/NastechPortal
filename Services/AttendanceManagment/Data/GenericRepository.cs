@@ -20,10 +20,21 @@ namespace AttendanceManagment.Data
             
             model.Date =DateTime.Now.ToString("dddd, dd MMMM yyyy");
             var modelObject = await _context.Attendances.FirstOrDefaultAsync(x => x.UserId==model.UserId && x.Date==model.Date);
-                    
+            DateTime startDate = 
+                new DateTime(DateTime.Today.Year,DateTime.Today.Month,DateTime.Today.Day,10,00,00);
             if(modelObject==null)
             {
             model.CheckIn=DateTime.Now;
+            var calculateGrace = model.CheckIn.Subtract(startDate);
+            if(calculateGrace.TotalMinutes > 0)
+            {
+                model.EffectiveHours = calculateGrace.Hours+":"+calculateGrace.Minutes;
+            }
+            else
+            {
+                model.EffectiveHours= "Early";
+            }
+            //model.EffectiveHours=calculateGrace;
             await _context.AddAsync(model);
             await SaveChanges();
             }
