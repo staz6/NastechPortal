@@ -6,6 +6,7 @@ namespace UserManagment.Entities
     {
         public string Name { get; set; }
         public string Address { get; set; }
+        public string PersonalEmail { get; set; }
         public string ContactNumber { get; set; }
         public Employee Employee { get; set; }
         public int EmployeeId {get;set;}

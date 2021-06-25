@@ -9,5 +9,6 @@ namespace AttendanceManagment.Data
         {
         }
         public DbSet<Attendance> Attendances { get; set; }
+        public DbSet<Leave> Leaves{get;set;}
     }
 }

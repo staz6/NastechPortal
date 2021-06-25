@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EventBus.Messages.Common;
+using EventBus.Messages.Events;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -72,11 +74,16 @@ namespace UserManagment
 
             //RabbitMQ/MassTransit
             services.AddMassTransit(config => {
-                config.UsingRabbitMq((cfx , cfg) => {
+                config.UsingRabbitMq((ctx , cfg) => {
                     cfg.Host("amqp://admin:admin@localhost:5672");
+                    
+                    cfg.ConfigureEndpoints(ctx);
+                    
                 });
+                config.AddRequestClient<UserGetAttendanceEventRequest>();
             });
             services.AddMassTransitHostedService();
+            
             
             services.AddSwaggerGen(c =>
             {
@@ -93,6 +100,7 @@ namespace UserManagment
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "UserManagment v1"));
             }
+            app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
             app.UseHttpsRedirection();
 

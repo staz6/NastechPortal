@@ -34,15 +34,16 @@ namespace UserManagment.Controllers
             if (model == null) return BadRequest();
             try
             {
-                await _accountRepo.RegisterUser(model);
+                var resultStatusCode = await _accountRepo.RegisterUser(model);
+                return new ObjectResult(new ApiErrorResponse(resultStatusCode));
             }
             catch (Exception)
             {
-                return BadRequest();
+                return new ObjectResult(new ApiErrorResponse(ErrorStatusCode.InvalidRequest));
             }
 
 
-            return Accepted();
+            //return Accepted();
 
         }
 
@@ -53,14 +54,20 @@ namespace UserManagment.Controllers
         {
             if(model == null)
             {
-                return new UserDto();
+                return new ObjectResult(new ApiErrorResponse(ErrorStatusCode.InvalidRequest));
             }
-            var result =await _accountRepo.Login(model);
+            try{
 
-            return new UserDto{
+                var result =await _accountRepo.Login(model);
+                return new UserDto{
                 Name= result.Name,
                 Token= result.Token
             };
+            }
+            catch(Exception ex)
+            {
+                return new ObjectResult(new ApiErrorResponse(200,ex.Message));
+            }
 
         }
 
@@ -69,9 +76,15 @@ namespace UserManagment.Controllers
         public async Task<ActionResult<UsersInfoDto>> GetCurrentUser()
         {
             //var user = await _userManager.FindByEmailFromClaimsPrinciple(HttpContext.User);
-            var email = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+            try{
+                var email = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
             var user = await _accountRepo.getCurrentUser(email);
             return user;
+            }
+            catch{
+                return new ObjectResult(new ApiErrorResponse(ErrorStatusCode.NotAuthorize));
+            }
+            
         }
     }
 }

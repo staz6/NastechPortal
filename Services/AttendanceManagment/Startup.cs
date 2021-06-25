@@ -7,6 +7,7 @@ using AttendanceManagment.EventBusConsumer;
 using AttendanceManagment.Helpers;
 using AttendanceManagment.Interface;
 using EventBus.Messages.Common;
+using EventBus.Messages.Events;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -48,6 +49,8 @@ namespace AttendanceManagment
             {
                 config.AddConsumer<UserCheckInConsumer>();
                 config.AddConsumer<UserCheckOutConsumer>();
+                config.AddConsumer<UserGetAttendanceConsumer>();
+                config.AddConsumer<UserLeaveConsumer>();
                 config.UsingRabbitMq((ctx, cfg) =>
                 {
                     cfg.Host("amqp://admin:admin@localhost:5672");
@@ -57,9 +60,19 @@ namespace AttendanceManagment
                     });
                     cfg.ReceiveEndpoint(EventBusConstants.UserCheckOutQueue, c=> {
                         c.ConfigureConsumer<UserCheckOutConsumer>(ctx);
+                        
                     });
+                    cfg.ReceiveEndpoint(EventBusConstants.UserLeaveQueue, c=> {
+                        c.ConfigureConsumer<UserLeaveConsumer>(ctx);
+                    });
+                    // cfg.ReceiveEndpoint(EventBusConstants.UserGetAttendanceEvent,c =>{
+                    //     c.Consumer<UserGetAttendanceConsumer>(ctx);
+                    // });
+                    cfg.ConfigureEndpoints(ctx);
 
                 });
+                //config.AddRequestClient<UserGetAttendanceEventRequest>();
+                
             });
             services.AddMassTransitHostedService();
             services.AddSwaggerGen(c =>

@@ -45,14 +45,31 @@ namespace UserManagment.Data
             return user.Id;
         }
 
+        public async Task<string> getUserId(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            return user.Id;
+        }
+
         public async Task<UsersInfoDto> getCurrentUser(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
+            var employee =await _context.Employees.FirstOrDefaultAsync(x => x.Id == user.EmployeeId);
 
             return new UsersInfoDto
             {
-                Name = user.Name,
-                Email = user.Email
+               EmployeeId = employee.Id,
+               Address=user.Address,
+               CNIC=employee.CNIC,
+               CurrentSalary=employee.CurrentSalary,
+               Designation=employee.Status,
+               Email=user.Email,
+               PersonalEmail=user.PersonalEmail,
+               MobileNumber=user.ContactNumber,
+               EmergencyNumber=employee.EmergencyNumber,
+               Name=user.Name,
+               ShiftTiming=employee.ShiftTiming,
+               Status=employee.Status
             };
         }
 
@@ -73,17 +90,20 @@ namespace UserManagment.Data
             return loginUser;
         }
 
-        public async Task RegisterUser(RegisterDto model)
+        public async Task<int> RegisterUser(RegisterDto model)
         {
-            var user = new AppUser
+            try{
+                var user = new AppUser
             {
                 Name = model.Name,
                 UserName = model.Email,
                 Email = model.Email,
                 Address = model.Address,
+                PersonalEmail = model.PersonalEmail,
                 ContactNumber = model.ContactNumber,
                 Employee = new Employee
                 {
+                    FatherName=model.FatherName,
                     CNIC = model.CNIC,
                     CurrentSalary = model.CurrentSalary,
                     Designation = model.Designation,
@@ -102,8 +122,16 @@ namespace UserManagment.Data
             }
             var role = _roleManager.FindByIdAsync(Roles.Employee).Result;
             var result = await _userManager.CreateAsync(user, model.Password);
+            if(!result.Succeeded) return ErrorStatusCode.InvalidRegister;
 
             await _userManager.AddToRoleAsync(user, Roles.Employee);
+            return ErrorStatusCode.ValidRegister;
+            }
+            catch(Exception)
+            {
+                return ErrorStatusCode.InvalidRequest;
+            }
+            
 
 
         }

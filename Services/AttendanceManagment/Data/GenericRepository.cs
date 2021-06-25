@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AttendanceManagment.Entities;
 using AttendanceManagment.Interface;
+using EventBus.Messages.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace AttendanceManagment.Data
@@ -53,6 +55,19 @@ namespace AttendanceManagment.Data
                 _context.Attendances.Update(modelObject);
                 _context.Update(modelObject);
             }
+            await SaveChanges();
+        }
+
+        public async Task<IEnumerable<Attendance>> getUserAttendance(string userId)
+        {
+            var getObject = await _context.Attendances.Where(x => x.UserId == userId).ToListAsync();
+            
+            return getObject;
+        }
+
+        public async Task leaveRequest(Leave model)
+        {
+            await _context.Leaves.AddAsync(model);
             await SaveChanges();
         }
 

@@ -7,10 +7,12 @@ namespace UserManagment.Interface
 {
     public interface IAccountRepository
     {
-        Task RegisterUser(RegisterDto model);
+        Task<int> RegisterUser(RegisterDto model);
         Task<UserDto> Login(LoginDto model);
         Task<UsersInfoDto> getCurrentUser(string email);
         Task<UserCheckInEventDto> CheckIn(string email);
         Task<string> CheckOut(string email);
+
+        Task<string> getUserId(string email);
     }
 }

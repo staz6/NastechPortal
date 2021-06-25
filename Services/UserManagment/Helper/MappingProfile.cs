@@ -13,6 +13,8 @@ namespace UserManagment.Helper
             CreateMap<RegisterDto,AppUser>().ReverseMap();
             CreateMap<UserCheckInEventDto,UserCheckInEvent>();
             CreateMap<UserCheckOutEventDto,UserCheckOutEvent>();
+            CreateMap<UserGetAttendanceEventRequestDto,UserGetAttendanceEventRequest>();
+            CreateMap<UserLeaveEventDto,UserLeaveEvent>();
         }
     }
 }
