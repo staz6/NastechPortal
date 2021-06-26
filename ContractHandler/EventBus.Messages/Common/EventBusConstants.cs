@@ -6,5 +6,6 @@ namespace EventBus.Messages.Common
         public const string UserCheckOutQueue = "usercheckout-queue";
         public const string UserGetAttendanceEvent = "usergetattendance-queue";
         public const string UserLeaveQueue = "userleave-queue";
+        public const string GetAttendaceRecordQueue = "getattendancerecord-queue";
     }
 }
