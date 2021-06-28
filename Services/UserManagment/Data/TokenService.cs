@@ -28,6 +28,7 @@ namespace UserManagment.Data
             {
                 new Claim(JwtRegisteredClaimNames.NameId,user.Id),
                 new Claim(JwtRegisteredClaimNames.Email,user.Email),
+                new Claim(ClaimTypes.NameIdentifier,user.Id),
                 new Claim(ClaimTypes.Role,roleName)
             };
 

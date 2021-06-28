@@ -1,3 +1,4 @@
+using AttendanceManagment.Dto;
 using AttendanceManagment.Entities;
 using AutoMapper;
 using EventBus.Messages.Events;
@@ -9,11 +10,12 @@ namespace AttendanceManagment.Helpers
     {
         public MappingProfile()
         {
-            CreateMap<Attendance,UserCheckInEvent>().ReverseMap();
-            CreateMap<Attendance,UserCheckOutEvent>().ReverseMap();
-            CreateMap<Attendance,UserGetAttendanceEventResponse>().ReverseMap();
-            CreateMap<Attendance,AttendanceEventDto>().ReverseMap();
-            CreateMap<Leave,UserLeaveEvent>().ReverseMap();
+            
+            
+            
+            CreateMap<Attendance,GetAttendanceDto>().ReverseMap();
+            CreateMap<UserLeaveDto,Leave>().ReverseMap();
+            CreateMap<GetUserLeaveDto,Leave>().ReverseMap();
         }
     }
 }

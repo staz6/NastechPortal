@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AttendanceManagment.Data;
 using AttendanceManagment.EventBusConsumer;
@@ -9,6 +10,7 @@ using AttendanceManagment.Interface;
 using EventBus.Messages.Common;
 using EventBus.Messages.Events;
 using MassTransit;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -18,6 +20,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace AttendanceManagment
@@ -44,26 +47,31 @@ namespace AttendanceManagment
             services.AddScoped<IGenericRepository,GenericRepository>();
             services.AddAutoMapper(typeof(MappingProfile));
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options =>
+                    {
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuerSigningKey = true,
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config
+                            ["Token:Key"])),
+                            ValidIssuer = _config["Token:Issuer"],
+                            ValidateIssuer = true,
+                            ValidateAudience = false
+                        };
+                    });
+
             //MassTransit
             services.AddMassTransit(config =>
             {
-                config.AddConsumer<UserCheckInConsumer>();
-                config.AddConsumer<UserCheckOutConsumer>();
-                config.AddConsumer<UserGetAttendanceConsumer>();
-                config.AddConsumer<UserLeaveConsumer>();
+                
+                config.AddConsumer<SetAttendanceConsumer>();
                 config.UsingRabbitMq((ctx, cfg) =>
                 {
                     cfg.Host("amqp://admin:admin@localhost:5672");
-                    cfg.ReceiveEndpoint(EventBusConstants.UserCheckInQueue, c =>
-                    {
-                        c.ConfigureConsumer<UserCheckInConsumer>(ctx);
-                    });
-                    cfg.ReceiveEndpoint(EventBusConstants.UserCheckOutQueue, c=> {
-                        c.ConfigureConsumer<UserCheckOutConsumer>(ctx);
-                        
-                    });
-                    cfg.ReceiveEndpoint(EventBusConstants.UserLeaveQueue, c=> {
-                        c.ConfigureConsumer<UserLeaveConsumer>(ctx);
+                    
+                    cfg.ReceiveEndpoint(EventBusConstants.SetAttendanceRecordQueue, c=> {
+                        c.ConfigureConsumer<SetAttendanceConsumer>(ctx);
                     });
                     // cfg.ReceiveEndpoint(EventBusConstants.UserGetAttendanceEvent,c =>{
                     //     c.Consumer<UserGetAttendanceConsumer>(ctx);
@@ -71,7 +79,7 @@ namespace AttendanceManagment
                     cfg.ConfigureEndpoints(ctx);
 
                 });
-                //config.AddRequestClient<UserGetAttendanceEventRequest>();
+                config.AddRequestClient<GetUserEventRequest>();
                 
             });
             services.AddMassTransitHostedService();
@@ -94,7 +102,7 @@ namespace AttendanceManagment
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

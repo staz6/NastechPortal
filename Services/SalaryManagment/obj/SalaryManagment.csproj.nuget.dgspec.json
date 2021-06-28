@@ -1,0 +1,153 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/staz/Documents/Portal/Services/SalaryManagment/SalaryManagment.csproj": {}
+  },
+  "projects": {
+    "/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/EventBus.Messages.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/EventBus.Messages.csproj",
+        "projectName": "EventBus.Messages",
+        "projectPath": "/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/EventBus.Messages.csproj",
+        "packagesPath": "/home/staz/.nuget/packages/",
+        "outputPath": "/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/staz/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.201/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/staz/Documents/Portal/Services/SalaryManagment/SalaryManagment.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/staz/Documents/Portal/Services/SalaryManagment/SalaryManagment.csproj",
+        "projectName": "SalaryManagment",
+        "projectPath": "/home/staz/Documents/Portal/Services/SalaryManagment/SalaryManagment.csproj",
+        "packagesPath": "/home/staz/.nuget/packages/",
+        "outputPath": "/home/staz/Documents/Portal/Services/SalaryManagment/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/staz/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/EventBus.Messages.csproj": {
+                "projectPath": "/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/EventBus.Messages.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[8.1.1, )"
+            },
+            "MassTransit": {
+              "target": "Package",
+              "version": "[7.2.1-develop.128, )"
+            },
+            "MassTransit.AspNetCore": {
+              "target": "Package",
+              "version": "[7.2.1-develop.128, )"
+            },
+            "MassTransit.RabbitMQ": {
+              "target": "Package",
+              "version": "[7.2.1-develop.128, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.7, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "target": "Package",
+              "version": "[5.0.7, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[5.0.7, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[5.6.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.201/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

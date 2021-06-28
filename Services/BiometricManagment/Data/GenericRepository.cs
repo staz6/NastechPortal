@@ -29,7 +29,8 @@ namespace BiometricManagment.Data
 
     public async Task GenerateAttendanceRecordAsync()
     {
-        using (var client = new RequestSocket())
+        await GetRecordFromCSV();
+        /*using (var client = new RequestSocket())
         {
             try
             {
@@ -48,7 +49,7 @@ namespace BiometricManagment.Data
                 _logger.LogInformation(e.Message);
             }
 
-        }
+        }*/
     }
 
     public async Task<int> GetRecordFromCSV()
@@ -79,8 +80,10 @@ namespace BiometricManagment.Data
         GetAttendanceRecordEvent result = new GetAttendanceRecordEvent{
             GetAttendanceRecord=mapResult
         };
+        
         _logger.LogInformation("success");
         _logger.LogInformation(result.GetAttendanceRecord.ToString());
+        _publishEndpoint.Publish(result);
 
         return Task.FromResult(1);
         

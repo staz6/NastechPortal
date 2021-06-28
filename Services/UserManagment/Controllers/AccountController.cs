@@ -75,7 +75,7 @@ namespace UserManagment.Controllers
         [HttpGet("getCurrentUser")]
         public async Task<ActionResult<UsersInfoDto>> GetCurrentUser()
         {
-            //var user = await _userManager.FindByEmailFromClaimsPrinciple(HttpContext.User);
+            
             try{
                 var email = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
             var user = await _accountRepo.getCurrentUser(email);

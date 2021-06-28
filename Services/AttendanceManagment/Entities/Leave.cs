@@ -10,5 +10,7 @@ namespace AttendanceManagment.Entities
        public string Reason { get; set; }
        public bool Status { get; set; }
        public bool DeductSalary {get;set;}
+       public string UserId { get; set; }
+       
     }
 }

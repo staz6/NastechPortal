@@ -2,7 +2,7 @@ namespace EventBus.Messages.Models
 {
     public class AttendanceEventDto
     {
-        public string UserId { get; set; }
+        public int UserId { get; set; }
         public string Date { get; set; }
         public string ShiftTiming { get; set; }
         public string CheckIn { get; set; }

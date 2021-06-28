@@ -169,9 +169,6 @@ namespace UserManagment.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("INTEGER");
 
@@ -213,8 +210,6 @@ namespace UserManagment.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -229,6 +224,12 @@ namespace UserManagment.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("BioMetricId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("CNIC")
@@ -262,6 +263,9 @@ namespace UserManagment.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId")
+                        .IsUnique();
 
                     b.ToTable("Employees");
                 });
@@ -317,14 +321,17 @@ namespace UserManagment.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("UserManagment.Entities.Employee", b =>
+                {
+                    b.HasOne("UserManagment.Entities.AppUser", "AppUser")
+                        .WithOne("Employee")
+                        .HasForeignKey("UserManagment.Entities.Employee", "AppUserId");
+
+                    b.Navigation("AppUser");
+                });
+
             modelBuilder.Entity("UserManagment.Entities.AppUser", b =>
                 {
-                    b.HasOne("UserManagment.Entities.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Employee");
                 });
 #pragma warning restore 612, 618

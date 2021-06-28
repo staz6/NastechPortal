@@ -11,6 +11,7 @@ namespace UserManagment.Dto
         public string PersonalEmail {get;set;}
         public string ContactNumber { get; set; }
         public string Password { get; set; }
+        public int BioMetricId { get; set; }
         public string ConfirmPassword {get;set;}
         public int CurrentSalary { get; set; }
         public string Designation { get; set; }

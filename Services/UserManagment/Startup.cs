@@ -21,6 +21,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using UserManagment.Data;
 using UserManagment.Entities;
+using UserManagment.EventBusConsumer;
 using UserManagment.Helper;
 using UserManagment.Interface;
 
@@ -74,13 +75,17 @@ namespace UserManagment
 
             //RabbitMQ/MassTransit
             services.AddMassTransit(config => {
-                config.UsingRabbitMq((ctx , cfg) => {
+                config.AddConsumer<AttendanceRecordConsumer>();
+                config.AddConsumer<GetUserEventConsumer>();
+               config.UsingRabbitMq((ctx , cfg) => {
                     cfg.Host("amqp://admin:admin@localhost:5672");
-                    
+                    cfg.ReceiveEndpoint(EventBusConstants.GetAttendaceRecordQueue, c=> {
+                        c.ConfigureConsumer<AttendanceRecordConsumer>(ctx);
+                    });
                     cfg.ConfigureEndpoints(ctx);
                     
                 });
-                config.AddRequestClient<UserGetAttendanceEventRequest>();
+                
             });
             services.AddMassTransitHostedService();
             

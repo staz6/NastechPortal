@@ -9,7 +9,8 @@ namespace UserManagment.Entities
         public string PersonalEmail { get; set; }
         public string ContactNumber { get; set; }
         public Employee Employee { get; set; }
-        public int EmployeeId {get;set;}
+     
+        
         
     }
 }

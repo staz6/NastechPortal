@@ -72,6 +72,9 @@ namespace AttendanceManagment.Data.Migrations
                     b.Property<DateTime>("Till")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.ToTable("Leaves");

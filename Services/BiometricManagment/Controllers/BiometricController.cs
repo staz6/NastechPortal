@@ -29,8 +29,6 @@ namespace BiometricManagment.Controllers
 
             _repo.GenerateAttendanceRecordAsync();
 
-
-
             return "result";
 
         }

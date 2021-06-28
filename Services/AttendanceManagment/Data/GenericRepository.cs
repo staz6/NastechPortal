@@ -2,66 +2,85 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AttendanceManagment.Dto;
 using AttendanceManagment.Entities;
 using AttendanceManagment.Interface;
+using AutoMapper;
+using EventBus.Messages.Events;
 using EventBus.Messages.Models;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace AttendanceManagment.Data
 {
     public class GenericRepository : IGenericRepository
     {
         private readonly AppDbContext _context;
-        public GenericRepository(AppDbContext context)
+        private readonly IRequestClient<GetUserEventRequest> _requestClient;
+        private readonly ILogger<GenericRepository> _logger;
+
+        public GenericRepository(AppDbContext context, IRequestClient<GetUserEventRequest> requestClient,
+                ILogger<GenericRepository> logger)
         {
+            _logger = logger;
+            _requestClient = requestClient;
+
             _context = context;
         }
 
-        public async Task CheckIn(Attendance model)
+        public async Task<List<GetAllLeaveRequestDto>> GetAllLeave()
         {
-            
-            model.Date =DateTime.Now.ToString("dddd, dd MMMM yyyy");
-            var modelObject = await _context.Attendances.FirstOrDefaultAsync(x => x.UserId==model.UserId && x.Date==model.Date);
-            DateTime startDate = 
-                new DateTime(DateTime.Today.Year,DateTime.Today.Month,DateTime.Today.Day,10,00,00);
-            if(modelObject==null)
-            {
-            model.CheckIn=DateTime.Now;
-            var calculateGrace = model.CheckIn.Subtract(startDate);
-            if(calculateGrace.TotalMinutes > 0)
-            {
-                model.EffectiveHours = calculateGrace.Hours+":"+calculateGrace.Minutes;
-            }
-            else
-            {
-                model.EffectiveHours= "Early";
-            }
-            //model.EffectiveHours=calculateGrace;
-            await _context.AddAsync(model);
-            await SaveChanges();
-            }
-            
+            var request = _requestClient.Create(new GetUserEventRequest { });
+            var response = await request.GetResponse<GetUserEventResponse>();
+            var usersInfo = response.Message.getUserResponse;
 
+            var leavesList = _context.Leaves.ToList();
+
+            var query = leavesList
+            .Join(
+                usersInfo,
+                leavesList => leavesList.UserId,
+                usersInfo => usersInfo.UserId,
+                (leavesList, usersInfo) => new
+                {
+                    UserId=usersInfo.UserId,
+                    Name = usersInfo.Name,
+                    Reason = leavesList.Reason,
+                    From = leavesList.From,
+                    Till = leavesList.Till,
+                    Status = leavesList.Status,
+                    DeductSalary = leavesList.DeductSalary
+                }
+            ).ToList();
+
+            List<GetAllLeaveRequestDto> returnList = new List<GetAllLeaveRequestDto>();
+            foreach(var items in query)
+            {
+                var a = new GetAllLeaveRequestDto{
+                    Name = items.Name,
+                    From=items.From,
+                    Till=items.Till,
+                    Reason=items.Reason,
+                    UserId=items.UserId,
+                    DeductSalary=items.DeductSalary,
+                    Status = items.Status
+                };
+                returnList.Add(a);   
+            }
+            return returnList;
+            
         }
 
-        public async Task CheckOut(Attendance model)
-        {
-            model.Date = DateTime.Now.ToString("dddd, dd MMMM yyyy");
-            var modelObject = await _context.Attendances.FirstOrDefaultAsync(x => x.UserId==model.UserId && x.Date==model.Date);
-            if(modelObject!=null)
-            {
-                modelObject.CheckOut=DateTime.Now;
-                modelObject.WorkedHours = modelObject.CheckOut.Subtract(modelObject.CheckIn).ToString("hh\\:mm\\:ss");
-                _context.Attendances.Update(modelObject);
-                _context.Update(modelObject);
-            }
-            await SaveChanges();
-        }
-
-        public async Task<IEnumerable<Attendance>> getUserAttendance(string userId)
+        public async Task<List<Attendance>> getUserAttendance(string userId)
         {
             var getObject = await _context.Attendances.Where(x => x.UserId == userId).ToListAsync();
-            
+            return getObject;
+        }
+
+        public async Task<List<Leave>> GetUserLeave(string userId)
+        {
+            var getObject = await _context.Leaves.Where(x => x.UserId == userId).ToListAsync();
             return getObject;
         }
 
