@@ -66,6 +66,7 @@ namespace AttendanceManagment
             {
                 
                 config.AddConsumer<SetAttendanceConsumer>();
+                config.AddConsumer<UserGetAttendanceConsumer>();
                 config.UsingRabbitMq((ctx, cfg) =>
                 {
                     cfg.Host("amqp://admin:admin@localhost:5672");
@@ -73,9 +74,9 @@ namespace AttendanceManagment
                     cfg.ReceiveEndpoint(EventBusConstants.SetAttendanceRecordQueue, c=> {
                         c.ConfigureConsumer<SetAttendanceConsumer>(ctx);
                     });
-                    // cfg.ReceiveEndpoint(EventBusConstants.UserGetAttendanceEvent,c =>{
-                    //     c.Consumer<UserGetAttendanceConsumer>(ctx);
-                    // });
+                    cfg.ReceiveEndpoint(EventBusConstants.UserGetAttendanceEvent,c =>{
+                        c.Consumer<UserGetAttendanceConsumer>(ctx);
+                    });
                     cfg.ConfigureEndpoints(ctx);
 
                 });

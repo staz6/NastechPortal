@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using EventBus.Messages.Common;
+using EventBus.Messages.Events;
 using MassTransit;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SalaryManagment.Data;
 using SalaryManagment.EventBusConsumer;
@@ -40,19 +44,38 @@ namespace SalaryManagment
             services.AddDbContext<AppDbContext>(x => x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
             services.AddScoped<IGenericRepository,GenericRepository>();
             services.AddAutoMapper(typeof(MappingProfile));
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options =>
+                    {
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuerSigningKey = true,
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config
+                            ["Token:Key"])),
+                            ValidIssuer = _config["Token:Issuer"],
+                            ValidateIssuer = true,
+                            ValidateAudience = false
+                        };
+                    });
+
             services.AddMassTransit(config =>
             {
                 config.AddConsumer<GenerateSalaryEventConsumer>();
+                config.AddConsumer<DeductSalaryEventConsumer>();
                 config.UsingRabbitMq((ctx, cfg) =>
                 {
                     cfg.Host("amqp://admin:admin@localhost:5672");
                     cfg.ReceiveEndpoint(EventBusConstants.generateSalaryQueue, c=> {
                         c.ConfigureConsumer<GenerateSalaryEventConsumer>(ctx);
                     });
+                    cfg.ReceiveEndpoint(EventBusConstants.deductSalaryQueue, c => {
+                        c.ConfigureConsumer<DeductSalaryEventConsumer>(ctx);
+                    });
                     cfg.ConfigureEndpoints(ctx);
 
                 });
-                //config.AddRequestClient<UserGetAttendanceEventRequest>();
+                config.AddRequestClient<UserGetAttendanceEventRequest>();
                 
             });
             services.AddMassTransitHostedService();
@@ -76,6 +99,7 @@ namespace SalaryManagment
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

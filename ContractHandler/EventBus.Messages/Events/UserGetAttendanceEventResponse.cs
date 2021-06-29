@@ -7,7 +7,7 @@ namespace EventBus.Messages.Events
     public class UserGetAttendanceEventResponse : IntegrationBaseEvent
     {
         
-        public IEnumerable<AttendanceEventDto> Attendance {get;set;}
+        public List<UserGetAttendanceEventDto> Attendance {get;set;}
 
     }
 }

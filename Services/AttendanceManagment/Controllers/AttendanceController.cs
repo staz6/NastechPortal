@@ -77,6 +77,16 @@ namespace AttendanceManagment.Controllers
             return Ok(result);
         }
 
+        [HttpPut("adminEditLeaveRequest/{id}")]
+        [ProducesResponseType((int)HttpStatusCode.Accepted)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [Authorize(AuthenticationSchemes = "Bearer",Roles =Roles.Employee)]
+        public async Task<ActionResult<List<GetAllLeaveRequestDto>>> getAllLeave(int id,AdminEditLeaveRequest model)
+        {
+            var result =_repo.AdminEditLeaveRequest(id, model);
+            return Ok();
+        }
+
 
 
     }

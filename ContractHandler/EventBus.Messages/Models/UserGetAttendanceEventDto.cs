@@ -1,14 +1,17 @@
+using System;
+
 namespace EventBus.Messages.Models
 {
-    public class AttendanceEventDto
+    public class UserGetAttendanceEventDto
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public string Date { get; set; }
         public string ShiftTiming { get; set; }
-        public string CheckIn { get; set; }
-        public string CheckOut { get; set; }
+        public DateTime CheckIn { get; set; }
+        public DateTime CheckOut { get; set; }
         public string WorkedHours { get; set; }
         public string EffectiveHours { get; set; }
         public string Status { get; set; }
+        public string TimeStatus {get;set;}
     }
 }

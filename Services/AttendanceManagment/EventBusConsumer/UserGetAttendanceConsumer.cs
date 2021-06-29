@@ -1,0 +1,34 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using AttendanceManagment.Data;
+using AttendanceManagment.Interface;
+using AutoMapper;
+using EventBus.Messages.Events;
+using EventBus.Messages.Models;
+using MassTransit;
+
+namespace AttendanceManagment.EventBusConsumer
+{
+    public class UserGetAttendanceConsumer : IConsumer<UserGetAttendanceEventRequest>
+    {
+        private readonly IGenericRepository _repo;
+        private readonly IMapper _mapper;
+        public UserGetAttendanceConsumer(IGenericRepository repo, IMapper mapper)
+        {
+            _mapper = mapper;
+            _repo = repo;
+        }
+
+        public async Task Consume(ConsumeContext<UserGetAttendanceEventRequest> context)
+        {
+            var userId = context.Message.UserId;
+            var userAttendance = await _repo.getUserAttendance(userId);
+            var mapObject = _mapper.Map<List<UserGetAttendanceEventDto>>(userAttendance);
+            UserGetAttendanceEventResponse response = new UserGetAttendanceEventResponse{
+                Attendance=mapObject
+            };
+            await context.RespondAsync(response);
+
+        }
+    }
+}

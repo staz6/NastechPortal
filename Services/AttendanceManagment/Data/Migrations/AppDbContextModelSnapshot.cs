@@ -28,7 +28,7 @@ namespace AttendanceManagment.Data.Migrations
                     b.Property<DateTime>("CheckOut")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Date")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("EffectiveHours")
@@ -57,7 +57,7 @@ namespace AttendanceManagment.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("DeductSalary")
+                    b.Property<bool?>("DeductSalary")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("From")
@@ -66,7 +66,7 @@ namespace AttendanceManagment.Data.Migrations
                     b.Property<string>("Reason")
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("Status")
+                    b.Property<bool?>("Status")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Till")

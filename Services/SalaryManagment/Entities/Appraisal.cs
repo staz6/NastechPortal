@@ -7,5 +7,6 @@ namespace SalaryManagment.Entities
         public int Percent { get; set; }
         public string Reason { get; set; }
         public DateTime Date { get; set; }
+       
     }
 }

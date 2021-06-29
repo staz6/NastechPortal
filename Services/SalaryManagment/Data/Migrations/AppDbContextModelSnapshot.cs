@@ -31,9 +31,6 @@ namespace SalaryManagment.Data.Migrations
                     b.Property<string>("Reason")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
                     b.ToTable("Appraisals");
@@ -54,8 +51,8 @@ namespace SalaryManagment.Data.Migrations
                     b.Property<string>("Reason")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -77,9 +74,6 @@ namespace SalaryManagment.Data.Migrations
                     b.Property<int>("HolidayDeduction")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
                     b.ToTable("Restrictionss");
@@ -91,13 +85,28 @@ namespace SalaryManagment.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("EmployeeSalary")
+                    b.Property<int>("Amount")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("AppraisalId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<int?>("SalaryBreakdownId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("SalaryHistoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppraisalId");
+
+                    b.HasIndex("SalaryBreakdownId");
+
+                    b.HasIndex("SalaryHistoryId");
 
                     b.ToTable("Salarys");
                 });
@@ -114,12 +123,37 @@ namespace SalaryManagment.Data.Migrations
                     b.Property<int>("DaySalary")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("UserId")
+                    b.HasKey("Id");
+
+                    b.ToTable("SalaryBreakdowns");
+                });
+
+            modelBuilder.Entity("SalaryManagment.Entities.SalaryByMonth", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Deduction")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Month")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("NetAmount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("SalaryHistoryId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.ToTable("SalaryBreakdowns");
+                    b.HasIndex("SalaryHistoryId");
+
+                    b.ToTable("SalaryByMonth");
                 });
 
             modelBuilder.Entity("SalaryManagment.Entities.SalaryDeduction", b =>
@@ -137,8 +171,8 @@ namespace SalaryManagment.Data.Migrations
                     b.Property<string>("Reason")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -154,15 +188,42 @@ namespace SalaryManagment.Data.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("SalaryPaid")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
                     b.ToTable("SalaryHistorys");
+                });
+
+            modelBuilder.Entity("SalaryManagment.Entities.Salary", b =>
+                {
+                    b.HasOne("SalaryManagment.Entities.Appraisal", "Appraisal")
+                        .WithMany()
+                        .HasForeignKey("AppraisalId");
+
+                    b.HasOne("SalaryManagment.Entities.SalaryBreakdown", "SalaryBreakdown")
+                        .WithMany()
+                        .HasForeignKey("SalaryBreakdownId");
+
+                    b.HasOne("SalaryManagment.Entities.SalaryHistory", "SalaryHistory")
+                        .WithMany()
+                        .HasForeignKey("SalaryHistoryId");
+
+                    b.Navigation("Appraisal");
+
+                    b.Navigation("SalaryBreakdown");
+
+                    b.Navigation("SalaryHistory");
+                });
+
+            modelBuilder.Entity("SalaryManagment.Entities.SalaryByMonth", b =>
+                {
+                    b.HasOne("SalaryManagment.Entities.SalaryHistory", null)
+                        .WithMany("SalaryByMonth")
+                        .HasForeignKey("SalaryHistoryId");
+                });
+
+            modelBuilder.Entity("SalaryManagment.Entities.SalaryHistory", b =>
+                {
+                    b.Navigation("SalaryByMonth");
                 });
 #pragma warning restore 612, 618
         }

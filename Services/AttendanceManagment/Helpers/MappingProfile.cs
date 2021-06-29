@@ -16,6 +16,9 @@ namespace AttendanceManagment.Helpers
             CreateMap<Attendance,GetAttendanceDto>().ReverseMap();
             CreateMap<UserLeaveDto,Leave>().ReverseMap();
             CreateMap<GetUserLeaveDto,Leave>().ReverseMap();
+            CreateMap<Attendance,UserGetAttendanceEventDto>();
+            CreateMap<Attendance,DeductSalaryEventDto>().ReverseMap();
+                
         }
     }
 }

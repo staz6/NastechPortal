@@ -29,6 +29,14 @@ namespace AttendanceManagment.Data
             _context = context;
         }
 
+        public async Task AdminEditLeaveRequest(int id, AdminEditLeaveRequest model)
+        {
+            var result = await _context.Leaves.FindAsync(id);
+            result.Status=model.Status;
+            result.DeductSalary=model.DeductSalary;
+            await SaveChanges();
+        }
+
         public async Task<List<GetAllLeaveRequestDto>> GetAllLeave()
         {
             var request = _requestClient.Create(new GetUserEventRequest { });
@@ -44,7 +52,7 @@ namespace AttendanceManagment.Data
                 usersInfo => usersInfo.UserId,
                 (leavesList, usersInfo) => new
                 {
-                    UserId=usersInfo.UserId,
+                    Id=leavesList.Id,
                     Name = usersInfo.Name,
                     Reason = leavesList.Reason,
                     From = leavesList.From,
@@ -62,7 +70,7 @@ namespace AttendanceManagment.Data
                     From=items.From,
                     Till=items.Till,
                     Reason=items.Reason,
-                    UserId=items.UserId,
+                    Id=items.Id,
                     DeductSalary=items.DeductSalary,
                     Status = items.Status
                 };

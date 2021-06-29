@@ -15,6 +15,7 @@ namespace AttendanceManagment.Interface
         Task leaveRequest(Leave model);
         Task<List<Leave>> GetUserLeave(string userId);
         Task<List<GetAllLeaveRequestDto>> GetAllLeave();
+        Task AdminEditLeaveRequest(int id, AdminEditLeaveRequest model);
         Task SaveChanges();
     }
 }

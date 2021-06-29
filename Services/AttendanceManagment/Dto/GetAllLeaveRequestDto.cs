@@ -4,12 +4,12 @@ namespace AttendanceManagment.Dto
 {
     public class GetAllLeaveRequestDto
     {
-        public string UserId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public DateTime From {get;set;}
         public DateTime Till {get;set;}
         public string Reason {get;set;}
-        public bool Status {get;set;}
-        public bool DeductSalary {get;set;}
+        public bool? Status {get;set;}
+        public bool? DeductSalary {get;set;}
     }
 }
