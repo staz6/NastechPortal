@@ -8,7 +8,6 @@ namespace SalaryManagment.Entities
         public string UserId { get; set; }
         public int Amount { get; set; }
         public SalaryBreakdown SalaryBreakdown {get;set;}
-        public  Appraisal Appraisal {get;set;}
         public SalaryHistory SalaryHistory {get;set;}
         
     }

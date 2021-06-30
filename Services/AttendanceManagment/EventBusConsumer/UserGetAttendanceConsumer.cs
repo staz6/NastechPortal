@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AttendanceManagment.Data;
@@ -22,7 +23,8 @@ namespace AttendanceManagment.EventBusConsumer
         public async Task Consume(ConsumeContext<UserGetAttendanceEventRequest> context)
         {
             var userId = context.Message.UserId;
-            var userAttendance = await _repo.getUserAttendance(userId);
+            DateTime month = context.Message.Month;
+            var userAttendance = await _repo.getUserAttendanceByMonth(userId,month);
             var mapObject = _mapper.Map<List<UserGetAttendanceEventDto>>(userAttendance);
             UserGetAttendanceEventResponse response = new UserGetAttendanceEventResponse{
                 Attendance=mapObject

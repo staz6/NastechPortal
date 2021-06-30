@@ -58,11 +58,15 @@ namespace UserManagment.Data
         //     return user.Id;
         // }
 
-        public async Task<int> getUserId(string email)
+        public async Task<bool> getUserId(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            // var employee = user.EmployeeId;
-            return 1;
+            if(user==null)
+            {
+                return true;
+            }
+            return false;
+            
         }
 
         public async Task<UsersInfoDto> getCurrentUser(string email)
@@ -200,11 +204,37 @@ namespace UserManagment.Data
             await _publishEndpoint.Publish(result);
         }
 
-        public async Task<List<Employee>> GetAllUser()
+        public async Task<IReadOnlyList<Employee>> GetAllUser()
         {
             var result = await _context.Employees.Include(c => c.AppUser).ToListAsync();
             // var mapObject = _mapper.Map<List<UsersInfoDto>>(result);
             return result;
+        }
+
+        public async Task EditEditEmployeeInfo(string userId, EditEmployeeInfoDto model)
+        {
+            var user = await _context.Users.Include(x => x.Employee).FirstOrDefaultAsync(x => x.Id == userId);
+            //var employee = await _context.Employees.FirstOrDefaultAsync(x => x.AppUserId==userId);
+            user.PersonalEmail = model.PersonalEmail;
+            user.Employee.EmergencyNumber = model.EmergencyNumber;
+            user.Address = model.Address;
+            user.ContactNumber = model.ContactNumber;
+
+            await _context.SaveChangesAsync();
+
+        }
+
+        public async Task<bool> BiometricCheck(int id)
+        {
+            var chk = await _context.Employees.FirstOrDefaultAsync(x => x.BioMetricId ==id);
+            if(chk==null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

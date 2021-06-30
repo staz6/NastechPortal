@@ -14,5 +14,6 @@ namespace UserManagment.Dto
         public string PersonalEmail { get; set; }
         public string ShiftTiming { get; set; }
         public int CurrentSalary { get; set; }
+        public string Id { get; set; }
     }
 }

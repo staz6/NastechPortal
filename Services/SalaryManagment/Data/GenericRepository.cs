@@ -31,102 +31,191 @@ namespace SalaryManagment.Data
 
         public async Task DeductSalary(List<DeductSalaryConsumerDto> model)
         {
-             var groupByid = model.GroupBy(x => x.UserId);
-             foreach(var items in groupByid)
-             {
-                int leaveCount = 0;
-                foreach(var item in items)
+            var groupByid = model.GroupBy(x => x.UserId);
+            foreach (var items in groupByid)
+            {
+                foreach (var item in items)
                 {
-                    var usr = _context.Salarys.Include(x => x.SalaryBreakdown).FirstOrDefault(x => x.UserId==item.UserId);
-                    int deductAmount = usr.SalaryBreakdown.DaySalary/2;
-                    if(item.Status=="Absent")
+                    var usr = _context.Salarys.Include(x => x.SalaryBreakdown).FirstOrDefault(x => x.UserId == item.UserId);
+                    int deductAmount = usr.SalaryBreakdown.DaySalary / 2;
+                    if (item.Status == "Absent")
                     {
-                        var chk = await _context.SalaryDeductions.FirstOrDefaultAsync(x => x.UserId==item.UserId && x.Date == item.Date);
-                        if(chk==null)
+                        var chk = await _context.SalaryDeductions.FirstOrDefaultAsync(x => x.UserId == item.UserId && x.Date == item.Date);
+                        if (chk == null)
                         {
-                            SalaryDeduction obj = new SalaryDeduction{
-                            UserId=item.UserId,
-                            Date=item.Date,
-                            Reason="Absent you was",
-                            Amount=deductAmount
-                        };
+                            SalaryDeduction obj = new SalaryDeduction
+                            {
+                                UserId = item.UserId,
+                                Date = item.Date,
+                                Reason = "Absent you was",
+                                Amount = deductAmount,
+                                DeductSalary = true
+                            };
                             await _context.SalaryDeductions.AddAsync(obj);
                             await _context.SaveChangesAsync();
                         }
                     }
-                    else{
-                        leaveCount++;
-                        if(leaveCount==4)
+                    else
+                    {
+
+                        var chk = await _context.SalaryDeductions.FirstOrDefaultAsync(x => x.UserId == item.UserId && x.Date == item.Date);
+                        if (chk == null)
                         {
-                            var chk = await _context.SalaryDeductions.FirstOrDefaultAsync(x => x.UserId==item.UserId && x.Date == item.Date);
-                            if(chk==null)
+                            SalaryDeduction obj = new SalaryDeduction
                             {
-                                 SalaryDeduction obj = new SalaryDeduction{
-                                UserId=item.UserId,
-                                Date=item.Date,
-                                Reason="Late you was",
-                                Amount=deductAmount
-                                };
-                                await _context.SalaryDeductions.AddAsync(obj);
-                                await _context.SaveChangesAsync();
-                                
-                            }
-                            leaveCount=leaveCount-2;
+                                UserId = item.UserId,
+                                Date = item.Date,
+                                Reason = "Late you was",
+                                Amount = deductAmount,
+                                DeductSalary = false
+                            };
+                            await _context.SalaryDeductions.AddAsync(obj);
+                            await _context.SaveChangesAsync();
                         }
+
+
                     }
                 }
-             }                            
+            }
         }
 
         public async Task generateSalary(GenerateSalaryEvent model)
-    {
-        var mapObject = _mapper.Map<Salary>(model);
-        mapObject.SalaryBreakdown = new SalaryBreakdown
         {
-            DaySalary = mapObject.Amount / 30,
-            Date = DateTime.Now, 
-        };
-        mapObject.Appraisal = new Appraisal {};
-        mapObject.SalaryHistory = new SalaryHistory {};
-        
-        _context.Salarys.AddAsync(mapObject).GetAwaiter().GetResult();
-        await _context.SaveChangesAsync();
-    }
+            var mapObject = _mapper.Map<Salary>(model);
+            mapObject.SalaryBreakdown = new SalaryBreakdown
+            {
+                DaySalary = mapObject.Amount / 30,
+                Date = DateTime.Now,
+            };
+            _context.Salarys.AddAsync(mapObject).GetAwaiter().GetResult();
+            await _context.SaveChangesAsync();
+        }
 
-    public async Task getMonthlySalary(string userId)
-    {
-        // using var request = _requestClient.Create(new UserGetAttendanceEventRequest { UserId = userId });
-        // var response = await request.GetResponse<UserGetAttendanceEventResponse>();
-        // List<UserGetAttendanceEventDto> attendanceRecord = response.Message.Attendance;
-        // //2021-03-24 18:35:57
-        // DateTime dateTime = new DateTime(2021,04,24);
-        // var attendanceObj = attendanceRecord.Where(x => x.CheckIn.Year==dateTime.Year &&
-        //     x.CheckIn.Month == dateTime.Month);
+        public async Task getMonthlySalary(string userId)
+        {
+            DateTime date = new DateTime(2021, 03, 24, 00, 00, 00);
+            var response = _requestClient.Create(new UserGetAttendanceEventRequest
+            {
+                UserId = userId,
+                Month = date
+            });
+            var usr = _context.Salarys.Include(x => x.SalaryBreakdown).FirstOrDefault(x => x.UserId == userId);
+            int salarayAmount = usr.Amount;
+            int deductAmount = usr.SalaryBreakdown.DaySalary / 2;
+            var result = await response.GetResponse<UserGetAttendanceEventResponse>();
+            await deductSalary(result.Message.Attendance,deductAmount);
+            await monthSalary(userId,date,salarayAmount);
+            return;
+        }
+
         
-        // // Deducte Late Salary
-        // // var lateAttendance = attendanceObj.Where(x => x.TimeStatus=="Late");
-        // // int count = lateAttendance.Count();
-        // // if(count>3)
-        // // {
+        public async Task deductSalary(List<UserGetAttendanceEventDto> model, int deductAmount)
+        {
             
-        // // }
-        // var salaryObject = await _context.Salarys.Include(x => x.SalaryHistory).FirstOrDefaultAsync(x=>x.UserId == userId);
-        // var salaryDeduction = await _context.SalaryDeductions
-        //     .FirstOrDefaultAsync(x => x.UserId == salaryObject.UserId && x.Date.Year==dateTime.Year &&
-        //     x.Date.Month == dateTime.Month);
-        // var salaryBonus = await _context.Bonuss
-        //     .FirstOrDefaultAsync(x => x.UserId == salaryObject.UserId && x.Date.Year==dateTime.Year &&
-        //     x.Date.Month == dateTime.Month);
-        // SalaryByMonth salaryByMonth = new SalaryByMonth{
-        //     Amount=salaryObject.Amount,
-        //     NetAmount=salaryObject.Amount
-        // };
-        // salaryObject.SalaryHistory.SalaryByMonth.Add(salaryByMonth);
+            //Absent insert
+            var absents = model.Where(x => x.Status == "Absent").ToList();
+            foreach (var item in absents)
+            {
+                var chk = await _context.SalaryDeductions.FirstOrDefaultAsync(x => x.UserId == item.UserId && x.Date == item.Date);
+                if (chk == null)
+                {
+                    SalaryDeduction obj = new SalaryDeduction
+                    {
+                        UserId = item.UserId,
+                        Date = item.Date,
+                        Reason = "Absent you was",
+                        Amount = deductAmount,
+                        DeductSalary = true
+                    };
+                    await _context.SalaryDeductions.AddAsync(obj);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            var lates = model.Where(x => x.Status == "Late").ToList();
+            int iteration = 0;
+            foreach (var item in lates)
+            {
+                iteration++;
+                if (iteration == 4)
+                {
+                    var chk = await _context.SalaryDeductions.FirstOrDefaultAsync(x => x.UserId == item.UserId && x.Date == item.Date);
+                    if (chk == null)
+                    {
+                        SalaryDeduction obj = new SalaryDeduction
+                        {
+                            UserId = item.UserId,
+                            Date = item.Date,
+                            Reason = "Late you was",
+                            Amount = deductAmount,
+                            DeductSalary = true
+                        };
+                        await _context.SalaryDeductions.AddAsync(obj);
+                        await _context.SaveChangesAsync();
+                        iteration=iteration-2;
+                    }
+                }
+                
+            }
+        }
 
-        // await _context.SaveChangesAsync();
-        
-        
-        return;
+        public async Task monthSalary(string userId,DateTime month,int salaryAmount)
+        {
+            var salary = await _context.Salarys.FirstOrDefaultAsync(x => x.UserId == userId);
+            var salaryHistory = await _context.SalaryHistorys.FirstOrDefaultAsync(x => x.UserId==userId);
+            if(salaryHistory==null)
+            {
+                SalaryHistory history = new SalaryHistory{
+                    UserId=userId,
+                };
+                await _context.SalaryHistorys.AddAsync(history);
+                salary.SalaryHistory=history;
+                await _context.SaveChangesAsync();
+
+            }
+            var salaryMonth = await _context.SalaryByMonths
+                .FirstOrDefaultAsync(x => x.UserId==userId && x.Month.Year == month.Year && x.Month.Month==month.Month);
+            if(salaryMonth==null)
+            {
+                int deductionAmount = _context.SalaryDeductions
+                        .Where(x => x.UserId == userId && x.Date.Month == month.Month && x.Date.Year== month.Year).ToList().Sum(x => x.Amount);
+                int bonusAmount = _context.Bonuss
+                        .Where(x => x.UserId == userId && x.Date.Month == month.Month && x.Date.Year== month.Year).ToList().Sum(x => x.Amount);
+                int netAmount = salaryAmount-deductionAmount+bonusAmount;
+                SalaryByMonth salaryByMonth = new SalaryByMonth{
+                    UserId=userId,
+                    Month=month,
+                    Amount=salaryAmount,
+                    Deduction=deductionAmount,
+                    NetAmount=netAmount,
+                    SalaryHistoryId=salaryHistory.Id,
+                    Status = false
+                };
+                
+                await _context.SalaryByMonths.AddAsync(salaryByMonth);
+                await _context.SaveChangesAsync();
+
+                
+            }
+            else
+            {
+                var getUserSalaryHistory = await _context.SalaryHistorys.Include(x => x.SalaryByMonth).FirstOrDefaultAsync(x => x.UserId==userId);
+                var getSalaryFromHistory =  getUserSalaryHistory.SalaryByMonth.FirstOrDefault(x => x.Month == month);
+                int deductionAmount = _context.SalaryDeductions
+                        .Where(x => x.UserId == userId && x.Date.Month == month.Month && x.Date.Year== month.Year).ToList().Sum(x => x.Amount);
+                int bonusAmount = _context.Bonuss
+                        .Where(x => x.UserId == userId && x.Date.Month == month.Month && x.Date.Year== month.Year).ToList().Sum(x => x.Amount);
+                int netAmount = salaryAmount-deductionAmount+bonusAmount;
+                getSalaryFromHistory.Deduction=deductionAmount;
+                getSalaryFromHistory.NetAmount=netAmount;
+                
+                await _context.SaveChangesAsync();
+            }
+            return;
+        }
+
+        public async Task<IReadOnlyList<SalaryByMonth>> getSalaryHistory(string userId)
+        {
+            return await _context.SalaryByMonths.Where(x => x.UserId == userId).ToListAsync();
+        }
     }
-}
 }

@@ -15,11 +15,16 @@ namespace UserManagment.Interface
         // Task<UserCheckInEventDto> CheckIn(string email);
         // Task<string> CheckOut(string email);
 
-        Task<List<Employee>> GetAllUser();
+        Task<IReadOnlyList<Employee>> GetAllUser();
 
-        Task<int> getUserId(string email);
+        Task<bool> getUserId(string email);
 
         Task GetAttendanceRecord(IEnumerable<GetAttendanceRecordEventDto> model);
+
+        Task EditEditEmployeeInfo(string userId,EditEmployeeInfoDto model);
+        Task<bool> BiometricCheck(int id);
+        
+        
         
     }
 }

@@ -5,7 +5,7 @@ namespace EventBus.Messages.Models
     public class UserGetAttendanceEventDto
     {
         public string UserId { get; set; }
-        public string Date { get; set; }
+        public DateTime Date { get; set; }
         public string ShiftTiming { get; set; }
         public DateTime CheckIn { get; set; }
         public DateTime CheckOut { get; set; }

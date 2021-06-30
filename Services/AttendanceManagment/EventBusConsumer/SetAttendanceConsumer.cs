@@ -87,15 +87,15 @@ namespace AttendanceManagment.EventBusConsumer
                 }
             }
 
-            var deductSalary = _context.Attendances.Where(x => x.Status == "Late" || x.Status == "Absent").ToList();
+            // var deductSalary = _context.Attendances.Where(x => x.Status == "Late" || x.Status == "Absent").ToList();
             
-            var deductSalaryMapObject = _mapper.Map<List<DeductSalaryEventDto>>(deductSalary);
-            _logger.LogInformation(deductSalaryMapObject.ToString());
-            DeductSalaryEvent deductSalaryEvent = new DeductSalaryEvent{
-                deductSalaryEvent=deductSalaryMapObject
-            };
-            _logger.LogInformation("Deduct Salary event");
-            await _publishEndpoint.Publish(deductSalaryEvent);
+            // var deductSalaryMapObject = _mapper.Map<List<DeductSalaryEventDto>>(deductSalary);
+            // _logger.LogInformation(deductSalaryMapObject.ToString());
+            // DeductSalaryEvent deductSalaryEvent = new DeductSalaryEvent{
+            //     deductSalaryEvent=deductSalaryMapObject
+            // };
+            // _logger.LogInformation("Deduct Salary event");
+            // await _publishEndpoint.Publish(deductSalaryEvent);
 
             
             

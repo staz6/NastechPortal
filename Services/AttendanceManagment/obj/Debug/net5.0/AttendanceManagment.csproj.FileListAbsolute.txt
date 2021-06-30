@@ -77,3 +77,4 @@
 /home/staz/Documents/Portal/Services/AttendanceManagment/bin/Debug/net5.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 /home/staz/Documents/Portal/Services/AttendanceManagment/bin/Debug/net5.0/Microsoft.IdentityModel.Tokens.dll
 /home/staz/Documents/Portal/Services/AttendanceManagment/bin/Debug/net5.0/System.IdentityModel.Tokens.Jwt.dll
+/home/staz/Documents/Portal/Services/AttendanceManagment/bin/Debug/net5.0/Interface/Properties/launchSettings.json

@@ -8,6 +8,7 @@ namespace SalaryManagment.Entities
         public int Amount { get; set; }
         public DateTime Date { get; set; }
         public string Reason { get; set; }
+        public bool DeductSalary { get; set; }
         
     }
 }

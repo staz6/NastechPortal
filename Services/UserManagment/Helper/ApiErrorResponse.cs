@@ -20,10 +20,12 @@ namespace UserManagment.Helper
             return statusCode switch{
                 ErrorStatusCode.ValidRegister => "Register Successfull",
                 ErrorStatusCode.InvalidRegister => "Invalid Register Attempt",
+                ErrorStatusCode.DuplicateEmail => "Email already exist",
                 200 => "Invalid Login Attempt",
                 400 => "Bad Request",
                 ErrorStatusCode.NotAuthorize => "Not Authorize",
                 404 => "Resource Not Found",
+                ErrorStatusCode.BiometricExist => "Biometric is register to another employee",
                 ErrorStatusCode.InvalidRequest => "Invalid Request",
                 _ => null
             };

@@ -86,6 +86,14 @@ namespace AttendanceManagment.Data
             return getObject;
         }
 
+
+        public async Task<List<Attendance>> getUserAttendanceByMonth(string userId,DateTime month)
+        {
+            var getObject = await _context.Attendances.Where(x => x.UserId == userId
+             && x.Date.Year == month.Year && x.Date.Month == month.Month).ToListAsync();
+            return getObject;
+        }
+
         public async Task<List<Leave>> GetUserLeave(string userId)
         {
             var getObject = await _context.Leaves.Where(x => x.UserId == userId).ToListAsync();

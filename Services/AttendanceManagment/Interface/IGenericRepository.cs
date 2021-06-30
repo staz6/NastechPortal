@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AttendanceManagment.Dto;
@@ -11,7 +12,7 @@ namespace AttendanceManagment.Interface
         
 
         Task<List<Attendance>> getUserAttendance(string userId);
-
+        Task<List<Attendance>> getUserAttendanceByMonth(string userId,DateTime month);
         Task leaveRequest(Leave model);
         Task<List<Leave>> GetUserLeave(string userId);
         Task<List<GetAllLeaveRequestDto>> GetAllLeave();

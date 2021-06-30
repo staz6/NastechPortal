@@ -15,5 +15,6 @@ namespace SalaryManagment.Data
         public DbSet<SalaryBreakdown> SalaryBreakdowns { get; set; }
         public DbSet<SalaryDeduction> SalaryDeductions { get; set; }
         public DbSet<SalaryHistory> SalaryHistorys { get; set; }
+        public DbSet<SalaryByMonth> SalaryByMonths {get;set;}
     }
 }

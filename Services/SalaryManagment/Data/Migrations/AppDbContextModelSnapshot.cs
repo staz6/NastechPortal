@@ -31,6 +31,9 @@ namespace SalaryManagment.Data.Migrations
                     b.Property<string>("Reason")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.ToTable("Appraisals");
@@ -88,9 +91,6 @@ namespace SalaryManagment.Data.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("AppraisalId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int?>("SalaryBreakdownId")
                         .HasColumnType("INTEGER");
 
@@ -101,8 +101,6 @@ namespace SalaryManagment.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AppraisalId");
 
                     b.HasIndex("SalaryBreakdownId");
 
@@ -140,20 +138,26 @@ namespace SalaryManagment.Data.Migrations
                     b.Property<int>("Deduction")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Month")
+                    b.Property<DateTime>("Month")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("NetAmount")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("SalaryHistoryId")
+                    b.Property<int>("SalaryHistoryId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SalaryHistoryId");
 
-                    b.ToTable("SalaryByMonth");
+                    b.ToTable("SalaryByMonths");
                 });
 
             modelBuilder.Entity("SalaryManagment.Entities.SalaryDeduction", b =>
@@ -167,6 +171,9 @@ namespace SalaryManagment.Data.Migrations
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("DeductSalary")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Reason")
                         .HasColumnType("TEXT");
@@ -185,7 +192,7 @@ namespace SalaryManagment.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<string>("UserId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -195,10 +202,6 @@ namespace SalaryManagment.Data.Migrations
 
             modelBuilder.Entity("SalaryManagment.Entities.Salary", b =>
                 {
-                    b.HasOne("SalaryManagment.Entities.Appraisal", "Appraisal")
-                        .WithMany()
-                        .HasForeignKey("AppraisalId");
-
                     b.HasOne("SalaryManagment.Entities.SalaryBreakdown", "SalaryBreakdown")
                         .WithMany()
                         .HasForeignKey("SalaryBreakdownId");
@@ -207,8 +210,6 @@ namespace SalaryManagment.Data.Migrations
                         .WithMany()
                         .HasForeignKey("SalaryHistoryId");
 
-                    b.Navigation("Appraisal");
-
                     b.Navigation("SalaryBreakdown");
 
                     b.Navigation("SalaryHistory");
@@ -216,9 +217,13 @@ namespace SalaryManagment.Data.Migrations
 
             modelBuilder.Entity("SalaryManagment.Entities.SalaryByMonth", b =>
                 {
-                    b.HasOne("SalaryManagment.Entities.SalaryHistory", null)
+                    b.HasOne("SalaryManagment.Entities.SalaryHistory", "SalarHistory")
                         .WithMany("SalaryByMonth")
-                        .HasForeignKey("SalaryHistoryId");
+                        .HasForeignKey("SalaryHistoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SalarHistory");
                 });
 
             modelBuilder.Entity("SalaryManagment.Entities.SalaryHistory", b =>
