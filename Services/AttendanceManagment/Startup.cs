@@ -42,8 +42,9 @@ namespace AttendanceManagment
             services.AddControllers();
             
             //General
-            services.AddDbContext<AppDbContext>(x =>
-             x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
+            var serverVersion = new MySqlServerVersion(new Version(8, 0, 25));
+            services.AddDbContext<AppDbContext>(x => 
+                x.UseMySql(_config.GetConnectionString("MysqlConnection"),serverVersion));
             services.AddScoped<IGenericRepository,GenericRepository>();
             services.AddAutoMapper(typeof(MappingProfile));
 
@@ -69,7 +70,7 @@ namespace AttendanceManagment
                 config.AddConsumer<UserGetAttendanceConsumer>();
                 config.UsingRabbitMq((ctx, cfg) =>
                 {
-                    cfg.Host("amqp://admin:admin@localhost:5672");
+                    cfg.Host("amqp://NastechPortal:adsiubfadsiasre44@rabbitmq.nastechltd.co");
                     
                     cfg.ReceiveEndpoint(EventBusConstants.SetAttendanceRecordQueue, c=> {
                         c.ConfigureConsumer<SetAttendanceConsumer>(ctx);
@@ -88,21 +89,29 @@ namespace AttendanceManagment
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AttendanceManagment", Version = "v1" });
             });
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("*");
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || env.IsProduction())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AttendanceManagment v1"));
             }
 
-            app.UseHttpsRedirection();
+            
 
             app.UseRouting();
+            app.UseCors("CorsPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -110,6 +119,10 @@ namespace AttendanceManagment
             {
                 endpoints.MapControllers();
             });
+            using(var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                scope.ServiceProvider.GetService<AppDbContext>().MigrateDb();
+            }
         }
     }
 }

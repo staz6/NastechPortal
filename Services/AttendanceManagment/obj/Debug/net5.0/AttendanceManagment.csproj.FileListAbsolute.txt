@@ -78,3 +78,6 @@
 /home/staz/Documents/Portal/Services/AttendanceManagment/bin/Debug/net5.0/Microsoft.IdentityModel.Tokens.dll
 /home/staz/Documents/Portal/Services/AttendanceManagment/bin/Debug/net5.0/System.IdentityModel.Tokens.Jwt.dll
 /home/staz/Documents/Portal/Services/AttendanceManagment/bin/Debug/net5.0/Interface/Properties/launchSettings.json
+/home/staz/Documents/Portal/Services/AttendanceManagment/bin/Debug/net5.0/MySqlConnector.dll
+/home/staz/Documents/Portal/Services/AttendanceManagment/bin/Debug/net5.0/Polly.dll
+/home/staz/Documents/Portal/Services/AttendanceManagment/bin/Debug/net5.0/Pomelo.EntityFrameworkCore.MySql.dll

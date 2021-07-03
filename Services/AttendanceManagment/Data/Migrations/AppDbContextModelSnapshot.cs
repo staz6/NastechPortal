@@ -63,6 +63,9 @@ namespace AttendanceManagment.Data.Migrations
                     b.Property<DateTime>("From")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("LeaveType")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Reason")
                         .HasColumnType("TEXT");
 

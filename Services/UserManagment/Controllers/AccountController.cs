@@ -67,7 +67,7 @@ namespace UserManagment.Controllers
         [HttpPost("login")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
-        public async Task<ActionResult<UserDto>> Login(LoginDto model)
+        public async Task<ActionResult<string>> Login(LoginDto model)
         {
             if (model == null)
             {
@@ -77,11 +77,7 @@ namespace UserManagment.Controllers
             {
 
                 var result = await _accountRepo.Login(model);
-                return new UserDto
-                {
-                    Name = result.Name,
-                    Token = result.Token
-                };
+                return result;
             }
             catch (Exception ex)
             {

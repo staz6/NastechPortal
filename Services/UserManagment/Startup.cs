@@ -1,22 +1,15 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using EventBus.Messages.Common;
-using EventBus.Messages.Events;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using UserManagment.Data;
@@ -24,6 +17,7 @@ using UserManagment.Entities;
 using UserManagment.EventBusConsumer;
 using UserManagment.Helper;
 using UserManagment.Interface;
+
 
 namespace UserManagment
 {
@@ -42,16 +36,16 @@ namespace UserManagment
         public void ConfigureServices(IServiceCollection services)
         {
 
-
-            services.AddControllers();
             
+            services.AddControllers();
+            var serverVersion = new MySqlServerVersion(new Version(8, 0, 25));
             //DbContext / General
             services.AddDbContext<AppDbContext>(x =>
-             x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
+             x.UseMySql(_config.GetConnectionString("DefaultConnection"),serverVersion));
             services.AddAutoMapper(typeof(MappingProfile));
 
             services.AddScoped<IAccountRepository,AccountRepository>();
-
+            services.AddScoped<ISeed,Seed>();
             //Identity
             services.AddScoped<ITokenService, TokenService>();
             services.AddIdentity<AppUser, IdentityRole>()
@@ -78,7 +72,7 @@ namespace UserManagment
                 config.AddConsumer<AttendanceRecordConsumer>();
                 config.AddConsumer<GetUserEventConsumer>();
                config.UsingRabbitMq((ctx , cfg) => {
-                    cfg.Host("amqp://admin:admin@localhost:5672");
+                    cfg.Host("amqp://NastechPortal:adsiubfadsiasre44@rabbitmq.nastechltd.co");
                     cfg.ReceiveEndpoint(EventBusConstants.GetAttendaceRecordQueue, c=> {
                         c.ConfigureConsumer<AttendanceRecordConsumer>(ctx);
                     });
@@ -94,12 +88,19 @@ namespace UserManagment
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "UserManagment", Version = "v1" });
             });
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("*");
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || env.IsProduction())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
@@ -107,16 +108,20 @@ namespace UserManagment
             }
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
-            app.UseHttpsRedirection();
 
             app.UseRouting();
 
+            app.UseCors("CorsPolicy");
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+            using(var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                scope.ServiceProvider.GetService<AppDbContext>().MigrateDb();
+            }
         }
     }
 }

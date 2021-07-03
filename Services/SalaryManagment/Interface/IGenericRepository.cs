@@ -16,5 +16,9 @@ namespace SalaryManagment.Interface
         Task deductSalary(List<UserGetAttendanceEventDto> model,int deductAmount);
         Task monthSalary(string userId,DateTime month,int salarayAmount);
         Task<IReadOnlyList<SalaryByMonth>> getSalaryHistory(string userId);
+        Task generateMonthlySalary();
+        Task<IReadOnlyList<SalaryDeduction>> getEmployeeSalaryHistory(string userId);
+
+        Task postSalaryDeduction(SalaryDeduction model);
     }
 }

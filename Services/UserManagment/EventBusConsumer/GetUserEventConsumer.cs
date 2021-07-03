@@ -5,6 +5,7 @@ using EventBus.Messages.Events;
 using EventBus.Messages.Models;
 using MassTransit;
 using Microsoft.Extensions.Logging;
+using UserManagment.Helper;
 using UserManagment.Interface;
 
 namespace UserManagment.EventBusConsumer
@@ -28,11 +29,16 @@ namespace UserManagment.EventBusConsumer
         List<GetUserResponseDto> listObj = new List<GetUserResponseDto>();
         foreach(var item in obj)
         {
-            var a = new GetUserResponseDto{
+            if(item.Role!=Roles.Admin)
+            {
+                var a = new GetUserResponseDto{
                 Name=item.AppUser.Name,
-                UserId=item.AppUserId
-            };
-            listObj.Add(a);
+                UserId=item.AppUserId,
+                ShiftTiming=item.ShiftTiming
+                };
+                listObj.Add(a);
+            }
+     
             
         }
        GetUserEventResponse response = new GetUserEventResponse{

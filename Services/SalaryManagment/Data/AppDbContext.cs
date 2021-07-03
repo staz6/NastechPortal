@@ -1,4 +1,6 @@
+using System;
 using Microsoft.EntityFrameworkCore;
+using Polly;
 using SalaryManagment.Entities;
 
 namespace SalaryManagment.Data
@@ -16,5 +18,12 @@ namespace SalaryManagment.Data
         public DbSet<SalaryDeduction> SalaryDeductions { get; set; }
         public DbSet<SalaryHistory> SalaryHistorys { get; set; }
         public DbSet<SalaryByMonth> SalaryByMonths {get;set;}
+        public void MigrateDb()
+        {
+            Policy
+                .Handle<Exception>()
+                .WaitAndRetry(10, r => TimeSpan.FromSeconds(10))
+                .Execute(() => Database.EnsureCreated());
+        }
     }
 }

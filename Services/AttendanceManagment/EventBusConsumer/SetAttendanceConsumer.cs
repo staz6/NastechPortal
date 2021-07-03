@@ -18,87 +18,92 @@ namespace AttendanceManagment.EventBusConsumer
         private readonly AppDbContext _context;
         private readonly IPublishEndpoint _publishEndpoint;
         private readonly IMapper _mapper;
-        public SetAttendanceConsumer(ILogger<SetAttendanceConsumer> logger, IMapper mapper
-        , AppDbContext context, IPublishEndpoint publishEndpoint)
+        private readonly IRequestClient<GetUserEventRequest> _requestClient;
+        public SetAttendanceConsumer(ILogger<SetAttendanceConsumer> logger, IMapper mapper     
+        , AppDbContext context, IPublishEndpoint publishEndpoint,IRequestClient<GetUserEventRequest> requestClient)
         {
+            _requestClient = requestClient;
             _mapper = mapper;
             _publishEndpoint = publishEndpoint;
             _context = context;
             _logger = logger;
         }
 
-        public async Task Consume(ConsumeContext<SendAttendanceRecordEvent> context)
+    public async Task Consume(ConsumeContext<SendAttendanceRecordEvent> context)
+    {
+        _logger.LogInformation("setattendance");
+        
+        foreach (var items in context.Message.SendAttendanceRecord)
         {
-            _logger.LogInformation("setattendance");
-
-            foreach (var items in context.Message.SendAttendanceRecord)
+            var chkInitRecord = _context.Attendances.FirstOrDefault(x => x.Date == items.TimeStamp.Date);
+            if (chkInitRecord == null)
             {
-                var chkOut = _context.Attendances
-                        .FirstOrDefault(x => x.UserId == items.UserId && x.Date == items.TimeStamp.Date);
-                if (chkOut != null)
+                var request = _requestClient.Create( new GetUserEventRequest{});
+                var response = await request.GetResponse<GetUserEventResponse>();
+                foreach(var item in response.Message.getUserResponse)
                 {
-                    if (chkOut.CheckOut != null)
-                    {
-                        chkOut.CheckOut = items.TimeStamp;
-                        chkOut.WorkedHours = (chkOut.CheckOut - chkOut.CheckIn).ToString();
-                        await _context.SaveChangesAsync();
-                    }
+                    Attendance attendanceObj = new Attendance{
+                        UserId= item.UserId,
+                        ShiftTiming=item.ShiftTiming,
+                        Status="Absent",
+                        Date=items.TimeStamp.Date   
+                    };
+                    await _context.Attendances.AddAsync(attendanceObj);
+                    await _context.SaveChangesAsync();
+                }
+            }   
+            var chkOut = _context.Attendances
+                    .FirstOrDefault(x => x.UserId == items.UserId && x.Date.Date == items.TimeStamp.Date);
+            if (chkOut.CheckIn != DateTime.MinValue)
+            {
+                // if (chkOut.CheckOut != null)
+                // {
+                    chkOut.CheckOut = items.TimeStamp;
+                    chkOut.WorkedHours = (chkOut.CheckOut - chkOut.CheckIn).ToString();
+                    await _context.SaveChangesAsync();
+                // }
+            }
+            else
+            {
+                // TimeSpan start = TimeSpan.Parse("10:00:00");
+                // TimeSpan end = TimeSpan.Parse("10:15:00");
+                
+                    chkOut.CheckIn = items.TimeStamp;
+                    chkOut.Status = "Present";
 
+                if (chkOut.CheckIn.Hour < 10)
+                {
+                    chkOut.EffectiveHours = chkOut.CheckIn.ToString("hh-mm") + " early";
+                    
+                }
+                else if (chkOut.CheckIn.Hour == 10 && chkOut.CheckIn.Minute < 15)
+                {
+                    chkOut.EffectiveHours = chkOut.CheckIn.ToString("hh-mm") + " grace";
+                    
                 }
                 else
                 {
-                    TimeSpan start = TimeSpan.Parse("10:00:00");
-                    TimeSpan end = TimeSpan.Parse("10:15:00");
-                    Attendance obj = new Attendance
-                    {
-                        CheckIn = items.TimeStamp,
-                        ShiftTiming = items.ShiftTiming,
-                        UserId = items.UserId,
-                        Date = items.TimeStamp.Date,
-                        Status = "Present"
-
-                    };
-                    if (obj.CheckIn.Hour < 10)
-                    {
-                        obj.EffectiveHours = obj.CheckIn.ToString("hh-mm") + " early";
-                        obj.Status = "Early";
-                    }
-                    else if (obj.CheckIn.Hour == 10 && obj.CheckIn.Minute < 15)
-                    {
-                        obj.EffectiveHours = obj.CheckIn.ToString("hh-mm") + " grace";
-                        obj.Status = "Grace";
-                    }
-                    else
-                    {
-                        obj.EffectiveHours = obj.CheckIn.ToString("hh-mm") + " late";
-                        obj.Status = "Late";
-                    }
-                    await _context.Attendances.AddAsync(obj);
-                    await _context.SaveChangesAsync();
+                    chkOut.EffectiveHours = chkOut.CheckIn.ToString("hh-mm") + " late";
+                    
                 }
+                
+                await _context.SaveChangesAsync();
             }
-            var absentCheck = _context.Attendances.ToList();
-
-            foreach (var items in absentCheck)
-            {
-                if (items.CheckIn == null)
-                {
-                    items.Status = "Absent";
-                }
-            }
-
-            // var deductSalary = _context.Attendances.Where(x => x.Status == "Late" || x.Status == "Absent").ToList();
-            
-            // var deductSalaryMapObject = _mapper.Map<List<DeductSalaryEventDto>>(deductSalary);
-            // _logger.LogInformation(deductSalaryMapObject.ToString());
-            // DeductSalaryEvent deductSalaryEvent = new DeductSalaryEvent{
-            //     deductSalaryEvent=deductSalaryMapObject
-            // };
-            // _logger.LogInformation("Deduct Salary event");
-            // await _publishEndpoint.Publish(deductSalaryEvent);
-
-            
-            
         }
+        
+
+        // var deductSalary = _context.Attendances.Where(x => x.Status == "Late" || x.Status == "Absent").ToList();
+
+        // var deductSalaryMapObject = _mapper.Map<List<DeductSalaryEventDto>>(deductSalary);
+        // _logger.LogInformation(deductSalaryMapObject.ToString());
+        // DeductSalaryEvent deductSalaryEvent = new DeductSalaryEvent{
+        //     deductSalaryEvent=deductSalaryMapObject
+        // };
+        // _logger.LogInformation("Deduct Salary event");
+        // await _publishEndpoint.Publish(deductSalaryEvent);
+
+
+
     }
+}
 }

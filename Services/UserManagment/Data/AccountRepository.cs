@@ -91,12 +91,12 @@ namespace UserManagment.Data
             };
         }
 
-        public async Task<UserDto> Login(LoginDto model)
+        public async Task<string> Login(LoginDto model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
-
+            
             var roleName = await _userManager.GetRolesAsync(user);
 
             var loginUser = new UserDto
@@ -105,7 +105,7 @@ namespace UserManagment.Data
                 Token = _tokenService.CreateToken(user, roleName[0])
             };
 
-            return loginUser;
+            return loginUser.Token;
         }
 
         public async Task<int> RegisterUser(RegisterDto model)

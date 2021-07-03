@@ -18,7 +18,7 @@ while True:
 		with open('attendanceLog.csv', 'w', newline='') as file:
 			writer = csv.writer(file)
 			for item in attendance:
-				writer.wrrow([item.user_id, item.timestamp])
+				writer.writerow([item.user_id, item.timestamp])
 		conn.enable_device()
 	except Exception as e:
 		print ("Process terminate : {}".format(e))

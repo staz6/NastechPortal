@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SalaryManagment.Dto;
+using SalaryManagment.Entities;
 using SalaryManagment.Interface;
 
 namespace SalaryManagment.Controllers
@@ -23,13 +24,12 @@ namespace SalaryManagment.Controllers
             _repo = repo;
         }
 
-        [HttpPost("getMonthlySalary")]
-        [Authorize]
+        [HttpPost("generateMonthlySalary")]   
         public async Task<ActionResult> getMonthlySalary()
         {
-            var userId = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            await _repo.getMonthlySalary(userId);
-            return Ok(userId);
+            
+            await _repo.generateMonthlySalary();
+            return Ok();
         }
 
         [HttpGet("getSalaryHistory")]
@@ -39,6 +39,26 @@ namespace SalaryManagment.Controllers
             var userId = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             var result = await _repo.getSalaryHistory(userId);
             return Ok(_mapper.Map<IReadOnlyList<GetSalaryHistoryDto>>(result));
+        }
+
+        [HttpGet("userSalaryDeduction/{id}")]
+        [Authorize]
+        public async Task<ActionResult<IReadOnlyList<GetEmployeeSalaryDeduction>>> getEmployeeSalaryDeduction(string id)
+        {
+
+            var result = await _repo.getEmployeeSalaryHistory(id);
+            var mapObject = _mapper.Map<IReadOnlyList<GetEmployeeSalaryDeduction>>(result);
+
+            return Ok(mapObject);
+            
+        }
+        [HttpPost("postSalaryDeduction")]
+        [Authorize]
+        public async Task<ActionResult> postSalaryDeduction(PostSalaryDeduction model)
+        {
+            var mapOject = _mapper.Map<SalaryDeduction>(model);
+            await _repo.postSalaryDeduction(mapOject);
+            return Ok();
         }
     }
 }
