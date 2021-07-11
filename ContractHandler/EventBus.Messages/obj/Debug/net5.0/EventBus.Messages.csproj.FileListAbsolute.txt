@@ -1,0 +1,12 @@
+/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/bin/Debug/net5.0/EventBus.Messages.deps.json
+/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/bin/Debug/net5.0/EventBus.Messages.dll
+/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/bin/Debug/net5.0/ref/EventBus.Messages.dll
+/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/bin/Debug/net5.0/EventBus.Messages.pdb
+/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/obj/Debug/net5.0/EventBus.Messages.csprojAssemblyReference.cache
+/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/obj/Debug/net5.0/EventBus.Messages.GeneratedMSBuildEditorConfig.editorconfig
+/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/obj/Debug/net5.0/EventBus.Messages.AssemblyInfoInputs.cache
+/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/obj/Debug/net5.0/EventBus.Messages.AssemblyInfo.cs
+/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/obj/Debug/net5.0/EventBus.Messages.csproj.CoreCompileInputs.cache
+/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/obj/Debug/net5.0/EventBus.Messages.dll
+/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/obj/Debug/net5.0/ref/EventBus.Messages.dll
+/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/obj/Debug/net5.0/EventBus.Messages.pdb
