@@ -1,8 +1,9 @@
 using System;
+using InventoryMangement.Entities;
 
 namespace InventoryMangment.Entities
 {
-    public class InventoryRequestApproval
+    public class InventoryRequestApproval : BaseClass
     {
         public string ApprovedBy { get; set; }
         public DateTime Date { get; set; }

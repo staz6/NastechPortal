@@ -108,7 +108,7 @@ namespace SalaryManagement.Data
 
         await _context.SaveChangesAsync();
     }
-
+    
     public async Task getMonthlySalary(string userId)
     {
         _logger.LogInformation("getMonthlySalary");

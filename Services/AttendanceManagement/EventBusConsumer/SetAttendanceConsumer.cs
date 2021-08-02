@@ -12,6 +12,10 @@ using System.Collections.Generic;
 
 namespace AttendanceManagement.EventBusConsumer
 {
+    /// <summary>
+    /// This is the consumer class which biometric call for daily attendance record 
+    /// REMEBER TO FIX ADD LEAVE FUNCTIONALITY 
+    /// </summary>
     public class SetAttendanceConsumer : IConsumer<SendAttendanceRecordEvent>
     {
         private readonly ILogger<SetAttendanceConsumer> _logger;
@@ -33,8 +37,11 @@ namespace AttendanceManagement.EventBusConsumer
     {
         _logger.LogInformation("setattendance");
         
+        /// context.message.sendattendancerecord container the biometric attendance records
         foreach (var items in context.Message.SendAttendanceRecord)
         {
+            /// If no record exist for that date then create a default records for all employee marking
+            /// them absents
             var chkInitRecord = _context.Attendances.FirstOrDefault(x => x.Date == items.TimeStamp.Date);
             if (chkInitRecord == null)
             {
@@ -52,9 +59,15 @@ namespace AttendanceManagement.EventBusConsumer
                     await _context.Attendances.AddAsync(attendanceObj);
                     await _context.SaveChangesAsync();
                 }
-            }   
+            } 
+            
+            // This is the checkout check if record exist for date then put the timestamp in checkout
+            // else this is a check in request
             var chkOut = _context.Attendances
                     .FirstOrDefault(x => x.UserId == items.UserId && x.Date.Date == items.TimeStamp.Date);
+            
+            /// Datetime.Minvalue is because deafult datetime is something 00:00:00 and its problematic to
+            /// define nullable datetime property 
             if (chkOut.CheckIn != DateTime.MinValue)
             {
                 // if (chkOut.CheckOut != null)

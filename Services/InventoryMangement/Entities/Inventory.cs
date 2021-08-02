@@ -1,8 +1,10 @@
+using InventoryMangement.Entities;
+
 namespace InventoryMangment.Entities
 {
-    public class Inventory
+    public class Inventory : BaseClass
     {
-        public int Id { get; set; }
+       
         public int Quantity { get; set; }
         public string Description { get; set; }
     }

@@ -1,8 +1,9 @@
 using System;
+using InventoryMangement.Entities;
 
 namespace InventoryMangment.Entities
 {
-    public class InventoryRequest
+    public class InventoryRequest : BaseClass
     {
         public string Category { get; set; }
         public string RequestedBy { get; set; }

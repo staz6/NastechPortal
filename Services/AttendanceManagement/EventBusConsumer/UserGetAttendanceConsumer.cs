@@ -10,6 +10,10 @@ using MassTransit;
 
 namespace AttendanceManagement.EventBusConsumer
 {
+
+    /// <summary>
+    /// Consumer which salary micro service will request for generating the salary record for that month
+    /// </summary>
     public class UserGetAttendanceConsumer : IConsumer<UserGetAttendanceEventRequest>
     {
         private readonly IGenericRepository _repo;

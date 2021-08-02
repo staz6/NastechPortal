@@ -30,6 +30,9 @@ namespace AttendanceManagement.Data
 
             _context = context;
         }
+        /**
+            Method for admin so he can confirm the employee leave request 
+        */
 
         public async Task AdminEditLeaveRequest(int id, AdminEditLeaveRequest model)
         {
@@ -63,6 +66,10 @@ namespace AttendanceManagement.Data
             }
 
         }
+
+        /**
+        * ! Deprecated method do not use
+        */
 
         public async Task<List<GetAllLeaveRequestDto>> GetAllLeave()
         {
@@ -108,6 +115,9 @@ namespace AttendanceManagement.Data
 
         }
 
+        /**
+         Get employee Leave History
+        */
         public async Task<GetLeaveHistoryDto> getLeaveHistory(string userId)
         {
             var result = await _context.LeaveHistorys.
@@ -134,6 +144,10 @@ namespace AttendanceManagement.Data
             }
         }
 
+
+        /**
+        Get employee attendance
+        */
         public async Task<List<Attendance>> getUserAttendance(string userId)
         {
             try
@@ -148,7 +162,10 @@ namespace AttendanceManagement.Data
 
         }
 
-
+        /**
+            Get employee attendance of specific month
+        * TODO: Use this method somewhere 
+        */
         public async Task<List<Attendance>> getUserAttendanceByMonth(string userId, DateTime month)
         {
             var getObject = await _context.Attendances.Where(x => x.UserId == userId
@@ -156,12 +173,17 @@ namespace AttendanceManagement.Data
             return getObject;
         }
 
+        /// <summary>
+        /// Get employee Leave
+        /// </summary>
         public async Task<List<Leave>> GetUserLeave(string userId)
         {
             var getObject = await _context.Leaves.Where(x => x.UserId == userId).ToListAsync();
             return getObject;
         }
-
+        /// <summary>
+        /// Post method for posting leave 
+        /// </summary>
         public async Task leaveRequest(Leave model)
         {
             try
