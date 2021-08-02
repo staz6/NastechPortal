@@ -11,7 +11,7 @@ namespace InventoryMangement.Data
         public DbSet<EmployeeNetworkDetail> EmployeeNetworkDetails { get; set; }
         public DbSet<Inventory> Inventorys { get; set; }
         public DbSet<InventoryRequest> InventoryRequests { get; set; }
-        public DbSet<InventoryRequestApproval> InventoryRequestApprovals { get; set; }
+        // public DbSet<InventoryRequestApproval> InventoryRequestApprovals { get; set; }
 
     }
 }

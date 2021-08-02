@@ -40,11 +40,11 @@ namespace UserManagement
             services.AddControllers();
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 25));
             //DbContext / General
-            services.AddDbContext<AppDbContext>(x =>
-             x.UseMySql(_config.GetConnectionString("MySqlConnection"),serverVersion));
-            services.AddAutoMapper(typeof(MappingProfile));
             // services.AddDbContext<AppDbContext>(x =>
-            //  x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
+            //  x.UseMySql(_config.GetConnectionString("MySqlConnection"),serverVersion));
+            
+            services.AddDbContext<AppDbContext>(x =>
+             x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
             services.AddAutoMapper(typeof(MappingProfile));
 
             services.AddScoped<IAccountRepository,AccountRepository>();
@@ -84,7 +84,7 @@ namespace UserManagement
                 config.AddConsumer<AttendanceRecordConsumer>();
                 config.AddConsumer<GenerateSalarySlipConsumer>();
                config.UsingRabbitMq((ctx , cfg) => {
-                    cfg.Host(_config["RabbitMq:NastechConnection"]);
+                    cfg.Host(_config["RabbitMq:DefaultConnection"]);
                     cfg.ReceiveEndpoint(EventBusConstants.GetAttendaceRecordQueue, c=> {
                         c.ConfigureConsumer<AttendanceRecordConsumer>(ctx);
                         c.ConfigureConsumer<GenerateSalarySlipConsumer>(ctx);

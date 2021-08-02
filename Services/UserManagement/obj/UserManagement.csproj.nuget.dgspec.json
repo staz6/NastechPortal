@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/home/staz/Documents/Portal/Services/UserManagement/UserManagement.csproj": {}
+    "C:\\Users\\staz\\Documents\\office\\NastechPortal\\Services\\UserManagement\\UserManagement.csproj": {}
   },
   "projects": {
-    "/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/EventBus.Messages.csproj": {
+    "C:\\Users\\staz\\Documents\\office\\NastechPortal\\ContractHandler\\EventBus.Messages\\EventBus.Messages.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/EventBus.Messages.csproj",
+        "projectUniqueName": "C:\\Users\\staz\\Documents\\office\\NastechPortal\\ContractHandler\\EventBus.Messages\\EventBus.Messages.csproj",
         "projectName": "EventBus.Messages",
-        "projectPath": "/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/EventBus.Messages.csproj",
-        "packagesPath": "/home/staz/.nuget/packages/",
-        "outputPath": "/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/obj/",
+        "projectPath": "C:\\Users\\staz\\Documents\\office\\NastechPortal\\ContractHandler\\EventBus.Messages\\EventBus.Messages.csproj",
+        "packagesPath": "C:\\Users\\staz\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\staz\\Documents\\office\\NastechPortal\\ContractHandler\\EventBus.Messages\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/staz/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\staz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -52,34 +54,36 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.201/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/home/staz/Documents/Portal/Services/UserManagement/UserManagement.csproj": {
+    "C:\\Users\\staz\\Documents\\office\\NastechPortal\\Services\\UserManagement\\UserManagement.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/staz/Documents/Portal/Services/UserManagement/UserManagement.csproj",
+        "projectUniqueName": "C:\\Users\\staz\\Documents\\office\\NastechPortal\\Services\\UserManagement\\UserManagement.csproj",
         "projectName": "UserManagement",
-        "projectPath": "/home/staz/Documents/Portal/Services/UserManagement/UserManagement.csproj",
-        "packagesPath": "/home/staz/.nuget/packages/",
-        "outputPath": "/home/staz/Documents/Portal/Services/UserManagement/obj/",
+        "projectPath": "C:\\Users\\staz\\Documents\\office\\NastechPortal\\Services\\UserManagement\\UserManagement.csproj",
+        "packagesPath": "C:\\Users\\staz\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\staz\\Documents\\office\\NastechPortal\\Services\\UserManagement\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/staz/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\staz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/EventBus.Messages.csproj": {
-                "projectPath": "/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/EventBus.Messages.csproj"
+              "C:\\Users\\staz\\Documents\\office\\NastechPortal\\ContractHandler\\EventBus.Messages\\EventBus.Messages.csproj": {
+                "projectPath": "C:\\Users\\staz\\Documents\\office\\NastechPortal\\ContractHandler\\EventBus.Messages\\EventBus.Messages.csproj"
               }
             }
           }
@@ -173,7 +177,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.201/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     }

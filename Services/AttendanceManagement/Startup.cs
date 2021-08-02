@@ -44,8 +44,10 @@ namespace AttendanceManagement
             //General
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 25));
             //DbContext / General
+            // services.AddDbContext<AppDbContext>(x =>
+            //  x.UseMySql(_config.GetConnectionString("MySqlConnection"),serverVersion));
             services.AddDbContext<AppDbContext>(x =>
-             x.UseMySql(_config.GetConnectionString("MySqlConnection"),serverVersion));
+             x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IGenericRepository,GenericRepository>();
             services.AddAutoMapper(typeof(MappingProfile));
@@ -72,7 +74,7 @@ namespace AttendanceManagement
                 config.AddConsumer<UserGetAttendanceConsumer>();
                 config.UsingRabbitMq((ctx, cfg) =>
                 {
-                    cfg.Host(_config["RabbitMq:NastechConnection"]);
+                    cfg.Host(_config["RabbitMq:DefaultConnection"]);
                     
                     cfg.ReceiveEndpoint(EventBusConstants.SetAttendanceRecordQueue, c=> {
                         c.ConfigureConsumer<SetAttendanceConsumer>(ctx);

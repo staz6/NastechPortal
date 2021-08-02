@@ -42,11 +42,11 @@ namespace SalaryManagement
 
             services.AddControllers();
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 25));
-            services.AddDbContext<AppDbContext>(x => 
-                x.UseMySql(_config.GetConnectionString("MysqlConnection"),serverVersion));
+            // services.AddDbContext<AppDbContext>(x => 
+            //     x.UseMySql(_config.GetConnectionString("MysqlConnection"),serverVersion));
 
-            // services.AddDbContext<AppDbContext>(x =>
-            //  x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<AppDbContext>(x =>
+             x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
             services.AddAutoMapper(typeof(MappingProfile));
 
             services.AddScoped<IGenericRepository,GenericRepository>();

@@ -1,9 +1,8 @@
 using System.ComponentModel.DataAnnotations;
-using InventoryMangement.Entities;
 
-namespace InventoryMangment.Entities
+namespace InventoryMangement.Dto
 {
-    public class Inventory : BaseClass
+    public class AdminPostInventory
     {
         [Required]
         public string Item { get; set; }

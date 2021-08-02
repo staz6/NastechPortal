@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/home/staz/Documents/Portal/Services/InventoryMangement/InventoryManagment.csproj": {}
+    "C:\\Users\\staz\\Documents\\office\\NastechPortal\\Services\\InventoryMangement\\InventoryManagment.csproj": {}
   },
   "projects": {
-    "/home/staz/Documents/Portal/Services/InventoryMangement/InventoryManagment.csproj": {
+    "C:\\Users\\staz\\Documents\\office\\NastechPortal\\Services\\InventoryMangement\\InventoryManagment.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/staz/Documents/Portal/Services/InventoryMangement/InventoryManagment.csproj",
+        "projectUniqueName": "C:\\Users\\staz\\Documents\\office\\NastechPortal\\Services\\InventoryMangement\\InventoryManagment.csproj",
         "projectName": "InventoryManagment",
-        "projectPath": "/home/staz/Documents/Portal/Services/InventoryMangement/InventoryManagment.csproj",
-        "packagesPath": "/home/staz/.nuget/packages/",
-        "outputPath": "/home/staz/Documents/Portal/Services/InventoryMangement/obj/",
+        "projectPath": "C:\\Users\\staz\\Documents\\office\\NastechPortal\\Services\\InventoryMangement\\InventoryManagment.csproj",
+        "packagesPath": "C:\\Users\\staz\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\staz\\Documents\\office\\NastechPortal\\Services\\InventoryMangement\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/staz/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\staz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -101,7 +103,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.201/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     }

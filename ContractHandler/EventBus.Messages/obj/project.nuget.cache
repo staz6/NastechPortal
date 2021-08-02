@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9ryjTVMSJWjBDm3R+pHQ2i707fTNVsFs7SbDoHOJiH1NLCIa+2EpUo1rn1AGMUnhy2t0ftLvKqyhuMP4DXqVPA==",
+  "dgSpecHash": "THK8jb/bjGGyDwR8F0kxm4MKgIP7PnUJcjAQI6elYSUC+8Ajm3fgG5bGp2FH2YD+Yz2XhgTedYaQvcOdUNXuWg==",
   "success": true,
-  "projectFilePath": "/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/EventBus.Messages.csproj",
+  "projectFilePath": "C:\\Users\\staz\\Documents\\office\\NastechPortal\\ContractHandler\\EventBus.Messages\\EventBus.Messages.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
