@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\staz\\Documents\\office\\NastechPortal\\ContractHandler\\EventBus.Messages\\EventBus.Messages.csproj": {}
+    "/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/EventBus.Messages.csproj": {}
   },
   "projects": {
-    "C:\\Users\\staz\\Documents\\office\\NastechPortal\\ContractHandler\\EventBus.Messages\\EventBus.Messages.csproj": {
+    "/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/EventBus.Messages.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\staz\\Documents\\office\\NastechPortal\\ContractHandler\\EventBus.Messages\\EventBus.Messages.csproj",
+        "projectUniqueName": "/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/EventBus.Messages.csproj",
         "projectName": "EventBus.Messages",
-        "projectPath": "C:\\Users\\staz\\Documents\\office\\NastechPortal\\ContractHandler\\EventBus.Messages\\EventBus.Messages.csproj",
-        "packagesPath": "C:\\Users\\staz\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\staz\\Documents\\office\\NastechPortal\\ContractHandler\\EventBus.Messages\\obj\\",
+        "projectPath": "/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/EventBus.Messages.csproj",
+        "packagesPath": "/home/staz/.nuget/packages/",
+        "outputPath": "/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\staz\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/staz/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -54,7 +52,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.301/RuntimeIdentifierGraph.json"
         }
       }
     }

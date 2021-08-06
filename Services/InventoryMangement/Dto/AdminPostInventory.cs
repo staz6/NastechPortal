@@ -4,6 +4,7 @@ namespace InventoryMangement.Dto
 {
     public class AdminPostInventory
     {
+        
         [Required]
         public string Item { get; set; }
         [Required]

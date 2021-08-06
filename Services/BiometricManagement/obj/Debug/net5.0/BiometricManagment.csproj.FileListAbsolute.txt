@@ -92,7 +92,6 @@
 /home/staz/Documents/Portal/Services/BiometricManagement/bin/Debug/net5.0/runtimes/win7/lib/netstandard2.0/System.Private.ServiceModel.dll
 /home/staz/Documents/Portal/Services/BiometricManagement/bin/Debug/net5.0/EventBus.Messages.dll
 /home/staz/Documents/Portal/Services/BiometricManagement/bin/Debug/net5.0/EventBus.Messages.pdb
-/home/staz/Documents/Portal/Services/BiometricManagement/obj/Debug/net5.0/BiometricManagment.csprojAssemblyReference.cache
 /home/staz/Documents/Portal/Services/BiometricManagement/obj/Debug/net5.0/BiometricManagment.GeneratedMSBuildEditorConfig.editorconfig
 /home/staz/Documents/Portal/Services/BiometricManagement/obj/Debug/net5.0/BiometricManagment.AssemblyInfoInputs.cache
 /home/staz/Documents/Portal/Services/BiometricManagement/obj/Debug/net5.0/BiometricManagment.AssemblyInfo.cs
@@ -108,3 +107,4 @@
 /home/staz/Documents/Portal/Services/BiometricManagement/obj/Debug/net5.0/ref/BiometricManagment.dll
 /home/staz/Documents/Portal/Services/BiometricManagement/obj/Debug/net5.0/BiometricManagment.pdb
 /home/staz/Documents/Portal/Services/BiometricManagement/obj/Debug/net5.0/BiometricManagment.genruntimeconfig.cache
+/home/staz/Documents/Portal/Services/BiometricManagement/obj/Debug/net5.0/BiometricManagment.csproj.AssemblyReference.cache

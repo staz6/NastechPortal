@@ -19,7 +19,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SalaryManagement.Data;
-using SalaryManagement.EventBusConsumer;
+// using SalaryManagement.EventBusConsumer;
 using SalaryManagement.Helpers;
 using SalaryManagement.Interface;
 
@@ -42,11 +42,11 @@ namespace SalaryManagement
 
             services.AddControllers();
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 25));
-            // services.AddDbContext<AppDbContext>(x => 
-            //     x.UseMySql(_config.GetConnectionString("MysqlConnection"),serverVersion));
+            services.AddDbContext<AppDbContext>(x => 
+                x.UseMySql(_config.GetConnectionString("MysqlConnection"),serverVersion));
 
-            services.AddDbContext<AppDbContext>(x =>
-             x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
+            // services.AddDbContext<AppDbContext>(x =>
+            //  x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
             services.AddAutoMapper(typeof(MappingProfile));
 
             services.AddScoped<IGenericRepository,GenericRepository>();
@@ -68,17 +68,17 @@ namespace SalaryManagement
 
             services.AddMassTransit(config =>
             {
-                config.AddConsumer<GenerateSalaryEventConsumer>();
-                config.AddConsumer<DeductSalaryEventConsumer>();
+                // config.AddConsumer<GenerateSalaryEventConsumer>();
+                // config.AddConsumer<DeductSalaryEventConsumer>();
                 config.UsingRabbitMq((ctx, cfg) =>
                 {
                     cfg.Host(_config["RabbitMq:DefaultConnection"]);
-                    cfg.ReceiveEndpoint(EventBusConstants.generateSalaryQueue, c=> {
-                        c.ConfigureConsumer<GenerateSalaryEventConsumer>(ctx);
-                    });
-                    cfg.ReceiveEndpoint(EventBusConstants.deductSalaryQueue, c => {
-                        c.ConfigureConsumer<DeductSalaryEventConsumer>(ctx);
-                    });
+                    // cfg.ReceiveEndpoint(EventBusConstants.generateSalaryQueue, c=> {
+                    //     c.ConfigureConsumer<GenerateSalaryEventConsumer>(ctx);
+                    // });
+                    // cfg.ReceiveEndpoint(EventBusConstants.deductSalaryQueue, c => {
+                    //     c.ConfigureConsumer<DeductSalaryEventConsumer>(ctx);
+                    // });
                     cfg.ConfigureEndpoints(ctx);
 
                 });

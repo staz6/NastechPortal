@@ -7,6 +7,9 @@ namespace SalaryManagement.Dto
         public string Designation { get; set; }
         public string FatherName { get; set; }
         public string Name { get; set; }
+        public string TotalDays { get; set; }
+        public int PerDaySalary{get;set;}
+        public string EarningDays { get; set; }
         public string Address { get; set; }
         public string JoiningDate { get; set; }
         public int Amount { get; set; }

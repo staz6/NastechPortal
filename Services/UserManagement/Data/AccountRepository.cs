@@ -212,7 +212,7 @@ namespace UserManagement.Data
                     ShiftTiming = employee.ShiftTiming,
                     Status = employee.Status,
                     AppUserId = employee.AppUserId,
-                    JoiningDate = employee.JoiningDate
+                    JoiningDate = employee.JoiningDate.ToString("yyyy-MMMM-dd")
                 };
             }
             else{

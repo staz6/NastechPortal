@@ -75,6 +75,7 @@ namespace UserManagement.Data
                 }
 
                 var adminUser = new AppUser{
+                    UserName="admin@email.com",
                     Email="admin@email.com"
                 };
                 var resultAdmin = await _userManager.CreateAsync(adminUser, "Pa$$w0rd");

@@ -10,6 +10,7 @@ namespace InventoryMangement.Helpers
         {  
             CreateMap<AdminPostInventory,Inventory>();
             CreateMap<EmployeePostInventoryRequest,InventoryRequest>();
+            CreateMap<EditInventory,Inventory>();
         }
     }
 }

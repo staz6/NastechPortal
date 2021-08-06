@@ -18,6 +18,6 @@ namespace UserManagement.Dto
         public string ShiftTiming { get; set; }
         public int CurrentSalary { get; set; }
         public string AppUserId { get; set; }
-        public DateTime  JoiningDate { get; set; }
+        public string  JoiningDate { get; set; }
     }
 }

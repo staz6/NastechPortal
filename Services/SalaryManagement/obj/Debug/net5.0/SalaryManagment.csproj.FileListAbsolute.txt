@@ -146,7 +146,6 @@
 /home/staz/Documents/Portal/Services/SalaryManagement/bin/Debug/net5.0/runtimes/win-x86/native/e_sqlite3.dll
 /home/staz/Documents/Portal/Services/SalaryManagement/bin/Debug/net5.0/EventBus.Messages.dll
 /home/staz/Documents/Portal/Services/SalaryManagement/bin/Debug/net5.0/EventBus.Messages.pdb
-/home/staz/Documents/Portal/Services/SalaryManagement/obj/Debug/net5.0/SalaryManagment.csprojAssemblyReference.cache
 /home/staz/Documents/Portal/Services/SalaryManagement/obj/Debug/net5.0/SalaryManagment.GeneratedMSBuildEditorConfig.editorconfig
 /home/staz/Documents/Portal/Services/SalaryManagement/obj/Debug/net5.0/SalaryManagment.AssemblyInfoInputs.cache
 /home/staz/Documents/Portal/Services/SalaryManagement/obj/Debug/net5.0/SalaryManagment.AssemblyInfo.cs
@@ -162,3 +161,4 @@
 /home/staz/Documents/Portal/Services/SalaryManagement/obj/Debug/net5.0/ref/SalaryManagment.dll
 /home/staz/Documents/Portal/Services/SalaryManagement/obj/Debug/net5.0/SalaryManagment.pdb
 /home/staz/Documents/Portal/Services/SalaryManagement/obj/Debug/net5.0/SalaryManagment.genruntimeconfig.cache
+/home/staz/Documents/Portal/Services/SalaryManagement/obj/Debug/net5.0/SalaryManagment.csproj.AssemblyReference.cache

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -26,25 +27,34 @@ namespace SalaryManagement.Controllers
             _repo = repo;
         }
 
-        [HttpPost("generateMonthlySalary")]   
-        public async Task<ActionResult> getMonthlySalary()
+        /// <summary>
+        /// This method is used for updating/Generating the employees Salary 
+        /// This will automatically generate/update the salary of the month provided
+        /// </summary>
+        /// <returns></returns>
+
+        [HttpPost("generateMonthlySalary")] 
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = Roles.Admin)] 
+        [ProducesResponseType((int)HttpStatusCode.Accepted)] 
+        public async Task<ActionResult> getMonthlySalary(DateTime date)
         {
-            
-            await _repo.generateMonthlySalary();
+            if(date==null) return BadRequest();
+            await _repo.generateMonthlySalary(date);
             return Ok();
         }
 
-        [HttpGet("getSalaryHistory")]
-        [Authorize]
-        public async Task<ActionResult<IReadOnlyList<GetSalaryHistoryDto>>> getSalaryHistory()
-        {
-            var userId = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "" + Roles.Employee + "," + Roles.Admin + "")]
+        [ProducesResponseType((int)HttpStatusCode.Accepted)]
+        [HttpGet("salary/{userId}")]
+        public async Task<ActionResult<IReadOnlyList<GetSalaryHistoryDto>>> getSalaryHistory(string userId)
+        {          
+            if(userId==null) return BadRequest();
             var result = await _repo.getSalaryHistory(userId);
             return Ok(_mapper.Map<IReadOnlyList<GetSalaryHistoryDto>>(result));
         }
 
-        [HttpGet("userSalaryDeduction/{id}")]
-        [Authorize]
+        [HttpGet("salaryDeduction/{id}")]
+        
         public async Task<ActionResult<IReadOnlyList<GetEmployeeSalaryDeduction>>> getEmployeeSalaryDeduction(string id)
         {
 
@@ -54,8 +64,8 @@ namespace SalaryManagement.Controllers
             return Ok(mapObject);
             
         }
-        [HttpPost("postSalaryDeduction")]
-        [Authorize]
+        [HttpPost("salaryDeduction")]
+        
         public async Task<ActionResult> postSalaryDeduction(PostSalaryDeduction model)
         {
             var mapOject = _mapper.Map<SalaryDeduction>(model);
@@ -63,13 +73,13 @@ namespace SalaryManagement.Controllers
             return Ok();
         }
         
-        [HttpGet("generateSalarySlip/{userId}")]
+        [HttpGet("salarySlip/{id}")]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "" + Roles.Employee + "," + Roles.Admin + "")]
-        public async Task<ActionResult<GenerateSalarySlipDto>> generateSalarySlip(string userId)
+        public async Task<ActionResult<GenerateSalarySlipDto>> generateSalarySlip(int id)
         {
-            var result = await _repo.generateSalarySlip(userId);
+            var result = await _repo.generateSalarySlip(id);
             return result;   
         }
     }

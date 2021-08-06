@@ -69,10 +69,11 @@ namespace AttendanceManagement.Controllers
         {
             if(dto == null) return BadRequest();
             var userId = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            if(dto == null) return BadRequest();
+            if(userId == null) return BadRequest();
             try{
                 var mapObject = _mapper.Map<Leave>(dto);
                 mapObject.UserId = userId;
+                mapObject.LeaveType=dto.Type;
                 await _repo.leaveRequest(mapObject);
                 return Accepted();
             }

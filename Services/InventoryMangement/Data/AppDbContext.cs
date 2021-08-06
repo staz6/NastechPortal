@@ -1,5 +1,7 @@
+using System;
 using InventoryMangment.Entities;
 using Microsoft.EntityFrameworkCore;
+using Polly;
 
 namespace InventoryMangement.Data
 {
@@ -12,6 +14,14 @@ namespace InventoryMangement.Data
         public DbSet<Inventory> Inventorys { get; set; }
         public DbSet<InventoryRequest> InventoryRequests { get; set; }
         // public DbSet<InventoryRequestApproval> InventoryRequestApprovals { get; set; }
+
+        public void MigrateDb()
+        {
+            Policy
+                .Handle<Exception>()
+                .WaitAndRetry(10, r => TimeSpan.FromSeconds(10))
+                .Execute(() => Database.EnsureCreated());
+        }
 
     }
 }

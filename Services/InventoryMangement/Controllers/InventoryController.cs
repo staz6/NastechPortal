@@ -33,7 +33,7 @@ namespace InventoryMangment.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public ActionResult<IReadOnlyList<Inventory>> getInventory()
         {
-            if(!ModelState.IsValid) return BadRequest();
+            if(!ModelState.IsValid) return new ObjectResult(BadRequest());
             return Ok(_inventoryRepo.GetAll());
         }
 
@@ -58,8 +58,7 @@ namespace InventoryMangment.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost("inventory")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "" + Roles.Admin + "")]
-
+        // [Authorize(AuthenticationSchemes = "Bearer", Roles = "" + Roles.Admin + "")]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public ActionResult postInventory(AdminPostInventory model)
@@ -82,11 +81,28 @@ namespace InventoryMangment.Controllers
         [HttpPut("inventory")]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public ActionResult putInventory(Inventory model)
+        public ActionResult putInventory(EditInventory model)
         {
             if(!ModelState.IsValid) return BadRequest();
             if(model == null) return BadRequest();
-            _inventoryRepo.Update(model);
+            var obj = _mapper.Map<Inventory>(model);
+            _inventoryRepo.Update(obj);
+            _inventoryRepo.Save();
+            return Accepted();
+            
+        }
+
+        [HttpPut("inventoryQuantity/{id}")]
+        [ProducesResponseType((int)HttpStatusCode.Accepted)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public ActionResult putInventory(int id,InventoryQuantity model)
+        {
+            if(!ModelState.IsValid) return BadRequest();
+            if(model == null) return BadRequest();
+            var obj = _inventoryRepo.GetById(id);
+            if(model.value==true) obj.Quantity++;
+            else obj.Quantity--;
+            _inventoryRepo.Update(obj);
             _inventoryRepo.Save();
             return Accepted();
             
@@ -98,7 +114,7 @@ namespace InventoryMangment.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
 
-        [HttpPut("inventory/{id}")]
+        [HttpDelete("inventory/{id}")]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public ActionResult putInventory(int id)

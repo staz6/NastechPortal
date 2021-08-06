@@ -44,10 +44,10 @@ namespace AttendanceManagement
             //General
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 25));
             //DbContext / General
-            // services.AddDbContext<AppDbContext>(x =>
-            //  x.UseMySql(_config.GetConnectionString("MySqlConnection"),serverVersion));
             services.AddDbContext<AppDbContext>(x =>
-             x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
+             x.UseMySql(_config.GetConnectionString("MySqlConnection"),serverVersion));
+            // services.AddDbContext<AppDbContext>(x =>
+            //  x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IGenericRepository,GenericRepository>();
             services.AddAutoMapper(typeof(MappingProfile));

@@ -6748,6 +6748,7 @@
       "outputPath": "/home/staz/Documents/Portal/Services/AttendanceManagement/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
+        "/home/staz/Documents/Portal/Services/AttendanceManagement/nuget.config",
         "/home/staz/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
@@ -6843,7 +6844,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.201/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.301/RuntimeIdentifierGraph.json"
       }
     }
   }
