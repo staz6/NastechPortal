@@ -31,10 +31,10 @@ namespace InventoryMangment.Controllers
         [HttpGet("inventory")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "" + Roles.Employee + "," + Roles.Admin + "")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public ActionResult<IReadOnlyList<Inventory>> getInventory()
+        public async Task<ActionResult<IReadOnlyList<Inventory>>> getInventory()
         {
-            if(!ModelState.IsValid) return new ObjectResult(BadRequest());
-            return Ok(_inventoryRepo.GetAll());
+            if(!ModelState.IsValid) return BadRequest();
+            return Ok(await _inventoryRepo.GetAll());
         }
 
 
@@ -46,10 +46,10 @@ namespace InventoryMangment.Controllers
         [HttpGet("inventory/{id}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "" + Roles.Employee + "," + Roles.Admin + "")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public ActionResult<Inventory> getInventoryById(int id)
+        public async Task<ActionResult<Inventory>> getInventoryById(int id)
         { 
               if(!ModelState.IsValid) return BadRequest();
-            return Ok(_inventoryRepo.GetById(id));
+            return Ok(await _inventoryRepo.GetById(id));
         }
 
         /// <summary>
@@ -61,13 +61,13 @@ namespace InventoryMangment.Controllers
         // [Authorize(AuthenticationSchemes = "Bearer", Roles = "" + Roles.Admin + "")]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public ActionResult postInventory(AdminPostInventory model)
+        public async Task<ActionResult> postInventory(AdminPostInventory model)
         {
             if(!ModelState.IsValid) return BadRequest();
             if(model == null) return BadRequest();
             var obj = _mapper.Map<Inventory>(model);
-            _inventoryRepo.Insert(obj);
-            _inventoryRepo.Save();
+             _inventoryRepo.Insert(obj);
+            await _inventoryRepo.Save();
             return Accepted();
             
         }
@@ -81,13 +81,13 @@ namespace InventoryMangment.Controllers
         [HttpPut("inventory")]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public ActionResult putInventory(EditInventory model)
+        public async Task<ActionResult> putInventory(EditInventory model)
         {
             if(!ModelState.IsValid) return BadRequest();
             if(model == null) return BadRequest();
             var obj = _mapper.Map<Inventory>(model);
-            _inventoryRepo.Update(obj);
-            _inventoryRepo.Save();
+             _inventoryRepo.Update(obj);
+            await _inventoryRepo.Save();
             return Accepted();
             
         }
@@ -95,15 +95,15 @@ namespace InventoryMangment.Controllers
         [HttpPut("inventoryQuantity/{id}")]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public ActionResult putInventory(int id,InventoryQuantity model)
+        public async Task<ActionResult> putInventory(int id,InventoryQuantity model)
         {
             if(!ModelState.IsValid) return BadRequest();
             if(model == null) return BadRequest();
-            var obj = _inventoryRepo.GetById(id);
+            var obj = await _inventoryRepo.GetById(id);
             if(model.value==true) obj.Quantity++;
             else obj.Quantity--;
-            _inventoryRepo.Update(obj);
-            _inventoryRepo.Save();
+             _inventoryRepo.Update(obj);
+            await _inventoryRepo.Save();
             return Accepted();
             
         }
@@ -117,11 +117,12 @@ namespace InventoryMangment.Controllers
         [HttpDelete("inventory/{id}")]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public ActionResult putInventory(int id)
+        public async Task<ActionResult> putInventory(int id)
         {
             if(!ModelState.IsValid) return BadRequest();
-            _inventoryRepo.Delete(id);
-            _inventoryRepo.Save();
+             _inventoryRepo.Delete(id);
+            await _inventoryRepo.Save();
+            
             return Accepted();
             
         }

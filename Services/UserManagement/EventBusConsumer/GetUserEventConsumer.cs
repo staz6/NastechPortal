@@ -36,7 +36,7 @@ namespace UserManagement.EventBusConsumer
                 var a = new GetUserResponseDto{
                 Name=item.AppUser.Name,
                 UserId=item.AppUserId,
-                ShiftTiming=item.ShiftTiming
+                ShiftTiming=item.ShiftTiming              
                 };
                 listObj.Add(a);
             

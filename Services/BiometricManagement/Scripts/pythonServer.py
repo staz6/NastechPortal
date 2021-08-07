@@ -9,7 +9,7 @@ conn = None
 while True:
 	message = socket.recv()
 	print("Received request: %s" % message)
-	zk = ZK('10.1.0.70', port=4370, timeout=5,password=0, force_udp=False, ommit_ping=False)
+	zk = ZK('192.168.1.201', port=4370, timeout=5,password=0, force_udp=False, ommit_ping=False)
 
 	try:
 		conn = zk.connect()

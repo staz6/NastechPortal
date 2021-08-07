@@ -29,27 +29,27 @@ namespace BiometricManagement.Data
 
     public async Task GenerateAttendanceRecordAsync()
     {
-        await GetRecordFromCSV();
-        // using (var client = new RequestSocket())
-        // {
-        //     try
-        //     {
-        //         client.Connect("tcp://127.0.0.1:6666");
-        //         client.SendFrame("GenerateRecord");
-        //         var msg = client.ReceiveFrameString();
-        //         if (msg != null)
-        //         {
-        //             _logger.LogInformation("Generating csv");
-        //             await GetRecordFromCSV();
-        //         }
+        // await GetRecordFromCSV();
+        using (var client = new RequestSocket())
+        {
+            try
+            {
+                client.Connect("tcp://127.0.0.1:6666");
+                client.SendFrame("GenerateRecord");
+                var msg = client.ReceiveFrameString();
+                if (msg != null)
+                {
+                    _logger.LogInformation("Generating csv");
+                    await GetRecordFromCSV();
+                }
 
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         _logger.LogInformation(e.Message);
-        //     }
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation(e.Message);
+            }
 
-        // }
+        }
     }
 
     public async Task<int> GetRecordFromCSV()

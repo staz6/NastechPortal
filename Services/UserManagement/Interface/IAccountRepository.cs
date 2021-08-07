@@ -13,6 +13,7 @@ namespace UserManagement.Interface
     public interface IAccountRepository
     {
         Task<int> RegisterUser(RegisterDto model);
+        Task<int> RegisterTestUser(RegisterDtoSeed model);
         Task<string> Login(LoginDto model);
         Task<UsersInfoDto> getCurrentUser(string email);
         // Task<UserCheckInEventDto> CheckIn(string email);

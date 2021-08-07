@@ -113,17 +113,20 @@ namespace UserManagement.Data
                         EmergencyNumber = model.Designation,
                         JoiningDate = model.JoiningDate,
                         ProfileImage = model.ProfileImage,
-                        Role = model.Role,
+                        Role = Roles.Employee,
                         Status = model.Status,
                         ShiftTiming = model.ShiftTiming
                     }
                 };
                 
-                var role = _roleManager.FindByIdAsync(model.Role).Result;
+                var role = _roleManager.FindByIdAsync(Roles.Employee).Result;
+                if(role==null){
+                    await _roleManager.CreateAsync(new IdentityRole(Roles.Employee));
+                }
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (!result.Succeeded) return ErrorStatusCode.InvalidRegister;
 
-                await _userManager.AddToRoleAsync(user, model.Role);
+                await _userManager.AddToRoleAsync(user, Roles.Employee);
                 
                 /// <summary>
                 /// Sending the employee salary to SalaryManagment microservices
@@ -292,5 +295,68 @@ namespace UserManagement.Data
                 throw new Exception();
             }
         }
+
+    public async Task<int> RegisterTestUser(RegisterDtoSeed model)
+    {
+
+        try
+        {
+            var user = new AppUser
+            {
+                Id=model.Id,
+                Name = model.Name,
+                UserName = model.Email,
+                Email = model.Email,
+                Address = model.Address,
+                PersonalEmail = model.PersonalEmail,
+                ContactNumber = model.ContactNumber,
+                Employee = new Employee
+                {
+                    BioMetricId = model.BioMetricId,
+                    FatherName = model.FatherName,
+                    CNIC = model.CNIC,
+                    CurrentSalary = model.CurrentSalary,
+                    Designation = model.Designation,
+                    EmergencyNumber = model.Designation,
+                    JoiningDate = model.JoiningDate,
+                    ProfileImage = model.ProfileImage,
+                    Role = Roles.Employee,
+                    Status = model.Status,
+                    ShiftTiming = model.ShiftTiming
+                }
+            };
+
+            var role = _roleManager.FindByIdAsync(Roles.Employee).Result;
+            if (role == null)
+            {
+                await _roleManager.CreateAsync(new IdentityRole(Roles.Employee));
+            }
+            var result = await _userManager.CreateAsync(user, model.Password);
+            if (!result.Succeeded) return ErrorStatusCode.InvalidRegister;
+
+            await _userManager.AddToRoleAsync(user, Roles.Employee);
+
+            /// <summary>
+            /// Sending the employee salary to SalaryManagment microservices
+            /// </summary>
+            /// <value></value>
+            var generateSalaryEvent = new GenerateSalaryEvent
+            {
+                Salary = model.CurrentSalary,
+                UserId = user.Id
+            };
+            await _publishEndpoint.Publish(generateSalaryEvent);
+
+            return ErrorStatusCode.ValidRegister;
+
+        }
+        catch (Exception)
+        {
+            return ErrorStatusCode.InvalidRequest;
+        }
+
+
+
+    }
     }
 }

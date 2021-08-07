@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using AutoMapper;
 using InventoryMangement.Dto;
 using InventoryMangement.Helpers;
@@ -34,10 +35,11 @@ namespace InventoryMangement.Controllers
         [HttpGet("inventoryRequest")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "" + Roles.Admin + "")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public ActionResult<IReadOnlyList<InventoryRequest>> getInventoryRequest()
+        public async Task<ActionResult<IReadOnlyList<InventoryRequest>>> getInventoryRequest()
         {
             if (!ModelState.IsValid) return BadRequest();
-            return Ok(_requestRepo.GetAll());
+            var obj = await _requestRepo.GetAll();
+            return Ok(obj);
         }
 
         /// <summary>
@@ -49,10 +51,10 @@ namespace InventoryMangement.Controllers
         [HttpGet("inventoryRequest/{userId}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "" + Roles.Employee + "," + Roles.Admin + "")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public ActionResult<IReadOnlyList<InventoryRequest>> getInventoryRequestByUserId(string userId)
+        public async Task<ActionResult<IReadOnlyList<InventoryRequest>>> getInventoryRequestByUserId(string userId)
         {
             if (!ModelState.IsValid) return BadRequest();
-            return Ok(_repo.getEmployeeInventoryRequest(userId));
+            return Ok(await _repo.getEmployeeInventoryRequest(userId));
         }
 
         /// <summary>
@@ -64,17 +66,17 @@ namespace InventoryMangement.Controllers
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "" + Roles.Admin + "")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
-        public ActionResult<IReadOnlyList<InventoryRequest>> approvedInventoryRequest(int id)
+        public async  Task<ActionResult<IReadOnlyList<InventoryRequest>>> approvedInventoryRequest(int id)
         {
             if (!ModelState.IsValid) return BadRequest();
             var userId = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            var obj = _requestRepo.GetById(id);
+            var obj = await _requestRepo.GetById(id);
             if(obj == null) return BadRequest();
             obj.Status=true;
             obj.DateApproved=DateTime.Now;
             obj.ApprovedBy=userId;
-            _requestRepo.Update(obj);
-            _requestRepo.Save();
+             _requestRepo.Update(obj);
+            await _requestRepo.Save();
             return Accepted();
         }
 
@@ -88,14 +90,14 @@ namespace InventoryMangement.Controllers
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "" + Roles.Admin + "")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
-        public ActionResult<IReadOnlyList<InventoryRequest>> getInventoryRequestByUserId(int id)
+        public async Task<ActionResult<IReadOnlyList<InventoryRequest>>> getInventoryRequestByUserId(int id)
         {
             if (!ModelState.IsValid) return BadRequest();
-            var obj = _requestRepo.GetById(id);
+            var obj = await _requestRepo.GetById(id);
             if(obj == null) return BadRequest();
             obj.Returned=true;
-            _requestRepo.Update(obj);
-            _requestRepo.Save();
+             _requestRepo.Update(obj);
+            await _requestRepo.Save();
             return Accepted();
         }
 
@@ -110,7 +112,7 @@ namespace InventoryMangement.Controllers
 
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public ActionResult postInventoryRequest(EmployeePostInventoryRequest model)
+        public async Task<ActionResult> postInventoryRequest(EmployeePostInventoryRequest model)
         {
             if (!ModelState.IsValid) return BadRequest();
             if (model == null) return BadRequest();
@@ -119,8 +121,8 @@ namespace InventoryMangement.Controllers
             obj.Status = false;
             obj.Returned=false;
 
-            _requestRepo.Insert(obj);
-            _requestRepo.Save();
+             _requestRepo.Insert(obj);
+            await _requestRepo.Save();
             return Accepted();
 
         }
