@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using EventBus.Messages.Events;
 using MassTransit;
@@ -57,7 +58,8 @@ namespace UserManagement.Data
                             ProfileImage = "string",
                             Role = "Employee",
                             Status = "string",
-                            ShiftTiming = "10-7"
+                            ShiftStart = new DateTime(01,01,0001,10,00,00),
+                            ShiftEnd= new DateTime(01,01,0001,19,00,00)
                         }
                     };
                     //var role = _roleManager.FindByIdAsync(Roles.Employee).Result;

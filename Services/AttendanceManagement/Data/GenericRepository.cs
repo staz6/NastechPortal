@@ -34,14 +34,14 @@ namespace AttendanceManagement.Data
             Method for admin so he can confirm the employee leave request 
         */
 
-        public async Task AdminEditLeaveRequest(int id, AdminEditLeaveRequest model)
+        public async Task AdminApproveLeaveRequest(int id)
         {
             var result = await _context.Leaves.FindAsync(id);
             if (result == null) throw new Exception();
             try
             {
-                result.Status = model.Status;
-                result.DeductSalary = model.DeductSalary;
+                result.Status = true;
+                
                 var leaveHistory = await _context.LeaveHistorys.
                     FirstOrDefaultAsync(x => x.UserId==result.UserId && x.Year == result.From.Year);
                 if(leaveHistory == null)
@@ -58,6 +58,20 @@ namespace AttendanceManagement.Data
 
                     leaveHistory.Remaining=leaveHistory.Remaining-((result.Till-result.From).Days+1);
                 }
+                DateTime dateTime = result.From;
+                while(dateTime <= result.Till)
+                {
+                    Attendance obj = new Attendance{
+                        UserId=result.UserId,
+                        Date=dateTime,
+                        ShiftTiming="Leave",
+                        Status="Leave"
+                    };
+                    
+                    await _context.AddAsync(obj);
+                    dateTime.AddDays(1);
+                    
+                }
                 await SaveChanges();
             }
             catch
@@ -66,6 +80,9 @@ namespace AttendanceManagement.Data
             }
 
         }
+
+
+      
 
         /**
         * ! Deprecated method do not use

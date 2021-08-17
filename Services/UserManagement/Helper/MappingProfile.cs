@@ -19,7 +19,9 @@ namespace UserManagement.Helper
                 .ForMember(x => x.MobileNumber, o => o.MapFrom(m => m.AppUser.ContactNumber))
                 .ForMember(x => x.PersonalEmail, o => o.MapFrom(m => m.AppUser.PersonalEmail))
                 .ForMember(x => x.AppUserId, o => o.MapFrom(m => m.AppUser.Id))
-                .ForMember(x => x.EmployeeId, o => o.MapFrom(m => m.Id));
+                .ForMember(x => x.EmployeeId, o => o.MapFrom(m => m.Id))
+                .ForMember(x => x.ShiftTiming, o => o.MapFrom
+                (m => m.ShiftStart.ToString("hh:mm tt") +" "+ m.ShiftEnd.ToString("hh:mm tt")  ));
             // CreateMap<UserCheckInEventDto,UserCheckInEvent>();
             // CreateMap<UserCheckOutEventDto,UserCheckOutEvent>();
             // CreateMap<UserGetAttendanceEventRequestDto,UserGetAttendanceEventRequest>();

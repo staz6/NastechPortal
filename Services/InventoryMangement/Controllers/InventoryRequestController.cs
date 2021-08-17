@@ -51,10 +51,12 @@ namespace InventoryMangement.Controllers
         [HttpGet("inventoryRequest/{userId}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "" + Roles.Employee + "," + Roles.Admin + "")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult<IReadOnlyList<InventoryRequest>>> getInventoryRequestByUserId(string userId)
+        public async Task<ActionResult<IReadOnlyList<EmployeeInventoryRequest>>> getInventoryRequestByUserId(string userId)
         {
             if (!ModelState.IsValid) return BadRequest();
-            return Ok(await _repo.getEmployeeInventoryRequest(userId));
+            var mapObj = await _repo.getEmployeeInventoryRequest(userId);
+            var obj =_mapper.Map<IReadOnlyList<InventoryRequest>,IReadOnlyList<EmployeeInventoryRequest>>(mapObj);
+            return Ok(obj);
         }
 
         /// <summary>
@@ -72,6 +74,7 @@ namespace InventoryMangement.Controllers
             var userId = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             var obj = await _requestRepo.GetById(id);
             if(obj == null) return BadRequest();
+            if(obj.Status==true) return new ObjectResult("Request Already Approved");
             obj.Status=true;
             obj.DateApproved=DateTime.Now;
             obj.ApprovedBy=userId;
@@ -95,10 +98,18 @@ namespace InventoryMangement.Controllers
             if (!ModelState.IsValid) return BadRequest();
             var obj = await _requestRepo.GetById(id);
             if(obj == null) return BadRequest();
-            obj.Returned=true;
-             _requestRepo.Update(obj);
-            await _requestRepo.Save();
-            return Accepted();
+            if(obj.Returned==true)
+            {
+                return new ObjectResult("Product has already been returned");
+            }
+            else
+            {
+                obj.Returned=true;
+                _requestRepo.Update(obj);
+                await _requestRepo.Save();
+                return Accepted();
+            }
+            
         }
 
 

@@ -115,12 +115,13 @@ namespace UserManagement.Data
                         ProfileImage = model.ProfileImage,
                         Role = Roles.Employee,
                         Status = model.Status,
-                        ShiftTiming = model.ShiftTiming
+                        ShiftStart = model.ShiftStart,
+                        ShiftEnd=model.ShiftEnd
                     }
                 };
                 
-                var role = _roleManager.FindByIdAsync(Roles.Employee).Result;
-                if(role==null){
+                var role =await _roleManager.RoleExistsAsync(Roles.Employee);
+                if(!role){
                     await _roleManager.CreateAsync(new IdentityRole(Roles.Employee));
                 }
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -170,7 +171,8 @@ namespace UserManagement.Data
                     {
                         var a = new SendAttendanceRecordEventDto{
                         UserId=user.Id,
-                        ShiftTiming=employee.ShiftTiming,
+                        ShiftStart=employee.ShiftStart,
+                        ShiftEnd=employee.ShiftEnd,
                         TimeStamp=item.TimeStamp
                         };
                         listobj.Add(a);
@@ -212,7 +214,7 @@ namespace UserManagement.Data
                     MobileNumber = user.ContactNumber,
                     EmergencyNumber = employee.EmergencyNumber,
                     Name = user.Name,
-                    ShiftTiming = employee.ShiftTiming,
+                    ShiftTiming = employee.ShiftStart.ToString("hh:mm tt")+ " "+employee.ShiftEnd.ToString("hh:mm tt"),
                     Status = employee.Status,
                     AppUserId = employee.AppUserId,
                     JoiningDate = employee.JoiningDate.ToString("yyyy-MMMM-dd")
@@ -282,13 +284,21 @@ namespace UserManagement.Data
         /// <param name="id"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task updateSalary(int id, UpdateSalaryDto model)
+        public async Task updateSalary(string userId, UpdateSalaryDto model)
         {
             try{
-                var employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id==id);
+                var user = await _userManager.FindByIdAsync(userId);
+                var employee = await _context.Employees.FirstOrDefaultAsync(x => x.AppUserId == user.Id);
                 if(employee ==null) throw new Exception();
                 employee.CurrentSalary=model.Salary;
+               
                 await _context.SaveChangesAsync();
+                 var generateSalaryEvent = new GenerateSalaryEvent
+                {
+                Salary = model.Salary,
+                UserId = user.Id
+                };
+            await _publishEndpoint.Publish(generateSalaryEvent);
             }
             catch(Exception)
             {
@@ -322,12 +332,13 @@ namespace UserManagement.Data
                     ProfileImage = model.ProfileImage,
                     Role = Roles.Employee,
                     Status = model.Status,
-                    ShiftTiming = model.ShiftTiming
+                    ShiftStart = model.ShiftStart,
+                    ShiftEnd = model.ShiftEnd
                 }
             };
 
-            var role = _roleManager.FindByIdAsync(Roles.Employee).Result;
-            if (role == null)
+            var role = await _roleManager.RoleExistsAsync(Roles.Employee);
+            if (!role)
             {
                 await _roleManager.CreateAsync(new IdentityRole(Roles.Employee));
             }

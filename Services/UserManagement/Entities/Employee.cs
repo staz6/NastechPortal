@@ -15,7 +15,8 @@ namespace UserManagement.Entities
         public string ProfileImage { get; set; }
         public string CNIC { get; set; }
         public string Role { get; set; }
-        public string ShiftTiming { get; set; }
+        public DateTime ShiftStart { get; set; }
+        public DateTime ShiftEnd { get; set; }
         public AppUser  AppUser {get;set;}
         public string AppUserId { get; set; }
     }

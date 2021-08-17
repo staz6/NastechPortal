@@ -6,6 +6,7 @@ namespace EventBus.Messages.Models
     {
         public string UserId { get; set; }
         public DateTime TimeStamp { get; set; }
-        public string ShiftTiming { get; set; }
+        public DateTime ShiftStart { get; set; }
+        public DateTime ShiftEnd { get; set; }
     }
 }

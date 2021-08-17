@@ -74,6 +74,8 @@ namespace AttendanceManagement.Controllers
                 var mapObject = _mapper.Map<Leave>(dto);
                 mapObject.UserId = userId;
                 mapObject.LeaveType=dto.Type;
+                mapObject.Status=null;
+                mapObject.DeductSalary=null;
                 await _repo.leaveRequest(mapObject);
                 return Accepted();
             }
@@ -125,15 +127,15 @@ namespace AttendanceManagement.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
 
-        [HttpPut("editLeave/{id}")]
+        [HttpPut("approveLeave/{id}")]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [Authorize(AuthenticationSchemes = "Bearer",Roles =Roles.Admin)]
-        public ActionResult adminEditLeaveRequest(int id,AdminEditLeaveRequest model)
+        public ActionResult adminApproveLeaveRequest(int id)
         {
-            if(model==null) return BadRequest();
+            
             try{
-                var result = _repo.AdminEditLeaveRequest(id, model);
+                var result = _repo.AdminApproveLeaveRequest(id);
                 return Accepted();
             }
             catch{

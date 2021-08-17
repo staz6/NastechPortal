@@ -54,6 +54,8 @@ namespace UserManagement.Controllers
                         try
                         {
                             var resultStatusCode = await _accountRepo.RegisterUser(model);
+                            
+                            
                             return new ObjectResult(new ApiErrorResponse(resultStatusCode));
                         }
                         catch (Exception)
@@ -178,7 +180,7 @@ namespace UserManagement.Controllers
         {
             var mapObject = await _accountRepo.GetAllUser();
             var result = _mapper.Map<IReadOnlyList<UsersInfoDto>>(mapObject);
-            _logger.LogInformation(result.ToString());
+            // _logger.LogInformation(result.ToString());
 
             return Ok(result);
         }
@@ -191,14 +193,14 @@ namespace UserManagement.Controllers
         [Authorize(AuthenticationSchemes ="Bearer",Roles =Roles.Admin)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
-        [HttpPut("updateSalary/{id}")]
-        public async Task<ActionResult> updateSalary(int id,UpdateSalaryDto model)
+        [HttpPut("updateSalary/{userId}")]
+        public async Task<ActionResult> updateSalary(string userId,UpdateSalaryDto model)
         {
             if(ModelState.IsValid)
             {
                 if(model !=null)
                 {
-                    await _accountRepo.updateSalary(id,model);
+                    await _accountRepo.updateSalary(userId,model);
                 }
             }
             return BadRequest();

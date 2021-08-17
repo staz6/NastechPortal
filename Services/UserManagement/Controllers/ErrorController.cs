@@ -59,7 +59,7 @@ namespace UserManagement.Controllers
             UserName = "admin@email.com",
             Email = "admin@email.com"
         };
-        var resultAdmin = await _userManager.CreateAsync(adminUser, "Pa$$w0rd");
+        var resultAdmin = await _userManager.CreateAsync(adminUser, "killjoy980");
         await _userManager.AddToRoleAsync(adminUser, Roles.Admin);
 
         return Accepted();
@@ -89,7 +89,8 @@ namespace UserManagement.Controllers
             ProfileImage = "imagepath",
             CNIC = "02-323214123-99",
             Role = "Employee",
-            ShiftTiming = "10:00 AM to 09:00 PM"
+            ShiftStart = new DateTime(01,01,0001,10,00,00),
+            ShiftEnd= new DateTime(01,01,0001,19,00,00)
 
         };
         await _repo.RegisterTestUser(model);
@@ -113,7 +114,8 @@ namespace UserManagement.Controllers
             ProfileImage = "imagepath",
             CNIC = "02-323214123-99",
             Role = "Employee",
-            ShiftTiming = "10:00 AM to 09:00 PM"
+             ShiftStart = new DateTime(01,01,0001,10,00,00),
+            ShiftEnd= new DateTime(01,01,0001,19,00,00)
 
         };
         await _repo.RegisterTestUser(model1);
@@ -138,7 +140,8 @@ namespace UserManagement.Controllers
             ProfileImage = "imagepath",
             CNIC = "02-323214123-99",
             Role = "Employee",
-            ShiftTiming = "10:00 AM to 09:00 PM"
+             ShiftStart = new DateTime(01,01,0001,10,00,00),
+            ShiftEnd= new DateTime(01,01,0001,19,00,00)
 
         };
         await _repo.RegisterTestUser(model2);
@@ -162,7 +165,8 @@ namespace UserManagement.Controllers
             ProfileImage = "imagepath",
             CNIC = "02-323214123-99",
             Role = "Employee",
-            ShiftTiming = "10:00 AM to 09:00 PM"
+             ShiftStart = new DateTime(01,01,0001,10,00,00),
+            ShiftEnd= new DateTime(01,01,0001,19,00,00)
 
         };
         await _repo.RegisterTestUser(model3);
@@ -186,7 +190,8 @@ namespace UserManagement.Controllers
             ProfileImage = "imagepath",
             CNIC = "02-323214123-99",
             Role = "Employee",
-            ShiftTiming = "10:00 AM to 09:00 PM"
+             ShiftStart = new DateTime(01,01,0001,10,00,00),
+            ShiftEnd= new DateTime(01,01,0001,19,00,00)
 
         };
         await _repo.RegisterTestUser(model4);
@@ -210,7 +215,8 @@ namespace UserManagement.Controllers
             ProfileImage = "imagepath",
             CNIC = "02-323214123-99",
             Role = "Employee",
-            ShiftTiming = "10:00 AM to 09:00 PM"
+             ShiftStart = new DateTime(01,01,0001,10,45,00),
+            ShiftEnd= new DateTime(01,01,0001,20,00,00)
 
         };
         await _repo.RegisterTestUser(model5);
@@ -234,7 +240,8 @@ namespace UserManagement.Controllers
             ProfileImage = "imagepath",
             CNIC = "02-323214123-99",
             Role = "Employee",
-            ShiftTiming = "10:00 AM to 09:00 PM"
+             ShiftStart = new DateTime(01,01,0001,10,00,00),
+            ShiftEnd= new DateTime(01,01,0001,19,00,00)
 
         };
         await _repo.RegisterTestUser(model6);
@@ -258,10 +265,11 @@ namespace UserManagement.Controllers
             ProfileImage = "imagepath",
             CNIC = "02-323214123-99",
             Role = "Employee",
-            ShiftTiming = "10:00 AM to 09:00 PM"
+             ShiftStart = new DateTime(01,01,0001,10,00,00),
+            ShiftEnd= new DateTime(01,01,0001,19,00,00)
 
         };
-        await _repo.RegisterTestUser(model6);
+        await _repo.RegisterTestUser(model7);
         return Ok();
     }
 

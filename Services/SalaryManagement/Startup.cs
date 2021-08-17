@@ -19,6 +19,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SalaryManagement.Data;
+using SalaryManagement.EventBusConsumer;
 // using SalaryManagement.EventBusConsumer;
 using SalaryManagement.Helpers;
 using SalaryManagement.Interface;
@@ -68,14 +69,14 @@ namespace SalaryManagement
 
             services.AddMassTransit(config =>
             {
-                // config.AddConsumer<GenerateSalaryEventConsumer>();
+                config.AddConsumer<GenerateSalaryEventConsumer>();
                 // config.AddConsumer<DeductSalaryEventConsumer>();
                 config.UsingRabbitMq((ctx, cfg) =>
                 {
-                    cfg.Host(_config["RabbitMq:DefaultConnection"]);
-                    // cfg.ReceiveEndpoint(EventBusConstants.generateSalaryQueue, c=> {
-                    //     c.ConfigureConsumer<GenerateSalaryEventConsumer>(ctx);
-                    // });
+                    cfg.Host(_config["RabbitMq:NastechConnection"]);
+                    cfg.ReceiveEndpoint(EventBusConstants.generateSalaryQueue, c=> {
+                        c.ConfigureConsumer<GenerateSalaryEventConsumer>(ctx);
+                    });
                     // cfg.ReceiveEndpoint(EventBusConstants.deductSalaryQueue, c => {
                     //     c.ConfigureConsumer<DeductSalaryEventConsumer>(ctx);
                     // });

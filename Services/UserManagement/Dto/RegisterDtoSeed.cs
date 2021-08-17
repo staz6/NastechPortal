@@ -44,6 +44,7 @@ namespace UserManagement.Dto
         [Required]
         public string Role { get; set; }
         [Required] 
-        public string ShiftTiming { get; set; }
+        public DateTime ShiftStart { get; set; }
+        public DateTime ShiftEnd { get; set; }
     }
 }

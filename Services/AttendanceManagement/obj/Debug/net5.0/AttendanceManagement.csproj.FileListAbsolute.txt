@@ -79,5 +79,4 @@
 /home/staz/Documents/Portal/Services/AttendanceManagement/obj/Debug/net5.0/ref/AttendanceManagement.dll
 /home/staz/Documents/Portal/Services/AttendanceManagement/obj/Debug/net5.0/AttendanceManagement.pdb
 /home/staz/Documents/Portal/Services/AttendanceManagement/obj/Debug/net5.0/AttendanceManagement.genruntimeconfig.cache
-/home/staz/Documents/Portal/Services/AttendanceManagement/bin/Debug/net5.0/nuget.config
 /home/staz/Documents/Portal/Services/AttendanceManagement/obj/Debug/net5.0/AttendanceManagement.csproj.AssemblyReference.cache

@@ -6748,7 +6748,6 @@
       "outputPath": "/home/staz/Documents/Portal/Services/AttendanceManagement/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/staz/Documents/Portal/Services/AttendanceManagement/nuget.config",
         "/home/staz/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [

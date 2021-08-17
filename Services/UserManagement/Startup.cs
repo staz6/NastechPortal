@@ -38,13 +38,22 @@ namespace UserManagement
 
             
             services.AddControllers();
-            var serverVersion = new MySqlServerVersion(new Version(8, 0, 25));
+            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            if(environmentName=="Production")
+            {
+                var serverVersion = new MySqlServerVersion(new Version(8, 0, 25));
             //DbContext / General
             services.AddDbContext<AppDbContext>(x =>
-             x.UseMySql(_config.GetConnectionString("MySqlConnection"),serverVersion));
+             x.UseMySql(_config.GetConnectionString("DefaultConnection"),serverVersion));
+            }
+            if(environmentName=="Development")
+            {
+                services.AddDbContext<AppDbContext>(x =>
+             x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
+            }
             
-            // services.AddDbContext<AppDbContext>(x =>
-            //  x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
+            
+            
                 
             
             services.AddAutoMapper(typeof(MappingProfile));

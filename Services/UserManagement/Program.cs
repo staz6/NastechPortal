@@ -21,7 +21,14 @@ namespace UserManagement
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    // webBuilder.UseUrls("http://0.0.0.0:5000");
+                    var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+                    if(environmentName=="Production")
+                    {
+                        
+                         webBuilder.UseUrls("http://0.0.0.0:5000");
+                    }
+                   
                 });
     }
 }

@@ -41,7 +41,7 @@ namespace BiometricManagement
             {
                 config.UsingRabbitMq((ctx, cfg) =>
                 {
-                    cfg.Host(_config["RabbitMq:DefaultConnection"]);
+                    cfg.Host(_config["RabbitMq:NastechConnection"]);
 
                     cfg.ConfigureEndpoints(ctx);
 

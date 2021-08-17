@@ -17,7 +17,7 @@ namespace InventoryMangement.Data
 
         public async Task<IReadOnlyList<InventoryRequest>> getEmployeeInventoryRequest(string userId)
         {
-            return await _context.InventoryRequests.Where(x=> x.RequestedBy == userId).ToListAsync();
+            return await _context.InventoryRequests.Include(x => x.Inventorys).Where(x=> x.RequestedBy == userId).ToListAsync();
         }
     }
 }

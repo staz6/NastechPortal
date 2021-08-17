@@ -4,8 +4,7 @@ namespace InventoryMangement.Dto
 {
     public class EditInventory
     {
-        [Required]
-        public int Id { get; set; }
+        
         [Required]
         public string Item { get; set; }
         [Required]

@@ -78,15 +78,16 @@ namespace InventoryMangment.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [HttpPut("inventory")]
+        [HttpPut("inventory/{id}")]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult> putInventory(EditInventory model)
+        public async Task<ActionResult> putInventory(int id,EditInventory model)
         {
             if(!ModelState.IsValid) return BadRequest();
             if(model == null) return BadRequest();
-            var obj = _mapper.Map<Inventory>(model);
-             _inventoryRepo.Update(obj);
+            var obj = await _inventoryRepo.GetById(id);
+            _mapper.Map(model,obj);
+            //  _inventoryRepo.Update(obj);
             await _inventoryRepo.Save();
             return Accepted();
             

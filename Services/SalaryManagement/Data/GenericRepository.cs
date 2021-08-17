@@ -38,27 +38,27 @@ namespace SalaryManagement.Data
 
 
 
-    // public async Task generateSalary(GenerateSalaryEvent model)
-    // {
-    //     var mapObject = _mapper.Map<Salary>(model);
-    //     var chk = await _context.Salarys.FirstOrDefaultAsync(x => x.UserId == mapObject.UserId);
+    public async Task generateSalary(GenerateSalaryEvent model)
+    {
+        var mapObject = _mapper.Map<Salary>(model);
+        var chk = await _context.Salarys.FirstOrDefaultAsync(x => x.UserId == mapObject.UserId);
 
-    //     if (chk != null)
-    //     {
-    //         chk.Amount = model.Salary;
-    //     }
-    //     else
-    //     {
-    //         mapObject.SalaryBreakdown = new SalaryBreakdown
-    //         {
-    //             DaySalary = mapObject.Amount / 30,
-    //             Date = DateTime.Now,
-    //         };
-    //         _context.Salarys.AddAsync(mapObject).GetAwaiter().GetResult();
-    //     }
+        if (chk != null)
+        {
+            chk.Amount = model.Salary;
+        }
+        else
+        {
+            mapObject.SalaryBreakdown = new SalaryBreakdown
+            {
+                DaySalary = mapObject.Amount / 30,
+                Date = DateTime.Now,
+            };
+            _context.Salarys.AddAsync(mapObject).GetAwaiter().GetResult();
+        }
 
-    //     await _context.SaveChangesAsync();
-    // }
+        await _context.SaveChangesAsync();
+    }
 
     /// <summary>
     /// Below are the four function use for generating Salary or updating it

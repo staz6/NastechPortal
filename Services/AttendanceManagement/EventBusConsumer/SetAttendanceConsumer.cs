@@ -49,15 +49,18 @@ namespace AttendanceManagement.EventBusConsumer
                 var response = await request.GetResponse<GetUserEventResponse>();
                 foreach(var item in response.Message.getUserResponse)
                 {
-                    
-                    Attendance attendanceObj = new Attendance{
+                    if(_context.Attendances.FirstOrDefault(x => x.UserId == item.UserId && x.Date == items.TimeStamp.Date) == null)
+                    {
+                        Attendance attendanceObj = new Attendance{
                         UserId= item.UserId,
-                        ShiftTiming=item.ShiftTiming,
                         Status="Absent",
+                        ShiftTiming=item.ShiftStart.ToString("hh:mm tt") + " " + item.ShiftEnd.ToString("hh:mm tt"),
                         Date=items.TimeStamp.Date   
-                    };
-                    await _context.Attendances.AddAsync(attendanceObj);
-                    await _context.SaveChangesAsync();
+                         };
+                        await _context.Attendances.AddAsync(attendanceObj);
+                        await _context.SaveChangesAsync();
+                    }
+                    
                 }
             } 
             
@@ -84,23 +87,29 @@ namespace AttendanceManagement.EventBusConsumer
                 
                     chkOut.CheckIn = items.TimeStamp;
                     chkOut.Status = "Present";
-
-                if (chkOut.CheckIn.Hour < 10)
+                    DateTime checkIn = new DateTime(01,01,0001,chkOut.CheckIn.Hour,chkOut.CheckIn.Minute,chkOut.CheckIn.Millisecond);
+                    DateTime shift = new DateTime(01,01,0001,items.ShiftStart.Hour,items.ShiftStart.Minute,items.ShiftStart.Millisecond);
+                    
+                if (checkIn<shift)
                 {
                     chkOut.EffectiveHours = chkOut.CheckIn.ToString("hh-mm") + " early";
                     
                 }
-                else if (chkOut.CheckIn.Hour == 10 && chkOut.CheckIn.Minute < 15)
-                {
-                    chkOut.EffectiveHours = chkOut.CheckIn.ToString("hh-mm") + " grace";
-                    
+                else{
+                    double time=(checkIn-shift).TotalMinutes;
+                    if (time<30)
+                    {
+                        chkOut.EffectiveHours = chkOut.CheckIn.ToString("hh-mm") + " grace";
+                        
+                    }
+                    else
+                    {
+                        chkOut.Status= "Late";
+                        chkOut.EffectiveHours = chkOut.CheckIn.ToString("hh-mm") + " late";
+                        
+                    }
                 }
-                else
-                {
-                    chkOut.Status= "Late";
-                    chkOut.EffectiveHours = chkOut.CheckIn.ToString("hh-mm") + " late";
-                    
-                }
+                
                 
                 await _context.SaveChangesAsync();
             }

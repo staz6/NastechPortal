@@ -27,7 +27,7 @@ namespace UserManagement.Interface
 
         Task EditEditEmployeeInfo(string userId,EditEmployeeInfoDto model);
         Task<bool> BiometricCheck(int id);
-        Task updateSalary(int id,UpdateSalaryDto model);
+        Task updateSalary(string userId,UpdateSalaryDto model);
         
         
         
