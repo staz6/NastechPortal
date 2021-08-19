@@ -1,0 +1,42 @@
+Project
+    name
+    description
+    logo
+    image
+    projectlead
+    createdon
+    duedate
+    completedon
+    budget
+    status
+ProjectMemeber
+    ProjectId
+    UserId
+    Role
+ProjectFolders
+    ProjectId
+    name
+    Description
+    DateTime CreatedAt
+projectPhase
+    name 
+    color
+ProjectTask
+    projectphaseId
+    string name
+    string description
+    string Attachment
+    Assignee
+    string Piority
+    string Reporter
+    DateTime CreatedAt
+    DateTime StartDate
+    DateTime DueDate
+    int Position
+ProjectTaskAssignee
+    projectTaskiD
+    string Assignee
+ProjectSubTask
+    ProjectTaskId
+    string Description
+    DateTime DueDate

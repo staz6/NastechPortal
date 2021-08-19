@@ -22,3 +22,15 @@ C:/Users/staz/Documents/office/NastechPortal/ContractHandler/EventBus.Messages/o
 C:/Users/staz/Documents/office/NastechPortal/ContractHandler/EventBus.Messages/obj/Debug/net5.0/ref/EventBus.Messages.dll
 C:/Users/staz/Documents/office/NastechPortal/ContractHandler/EventBus.Messages/obj/Debug/net5.0/EventBus.Messages.pdb
 /home/staz/Documents/Portal/ContractHandler/EventBus.Messages/obj/Debug/net5.0/EventBus.Messages.csproj.AssemblyReference.cache
+D:\Nastech\NastechPortal\ContractHandler\EventBus.Messages\bin\Debug\net5.0\EventBus.Messages.deps.json
+D:\Nastech\NastechPortal\ContractHandler\EventBus.Messages\bin\Debug\net5.0\EventBus.Messages.dll
+D:\Nastech\NastechPortal\ContractHandler\EventBus.Messages\bin\Debug\net5.0\ref\EventBus.Messages.dll
+D:\Nastech\NastechPortal\ContractHandler\EventBus.Messages\bin\Debug\net5.0\EventBus.Messages.pdb
+D:\Nastech\NastechPortal\ContractHandler\EventBus.Messages\obj\Debug\net5.0\EventBus.Messages.csproj.AssemblyReference.cache
+D:\Nastech\NastechPortal\ContractHandler\EventBus.Messages\obj\Debug\net5.0\EventBus.Messages.GeneratedMSBuildEditorConfig.editorconfig
+D:\Nastech\NastechPortal\ContractHandler\EventBus.Messages\obj\Debug\net5.0\EventBus.Messages.AssemblyInfoInputs.cache
+D:\Nastech\NastechPortal\ContractHandler\EventBus.Messages\obj\Debug\net5.0\EventBus.Messages.AssemblyInfo.cs
+D:\Nastech\NastechPortal\ContractHandler\EventBus.Messages\obj\Debug\net5.0\EventBus.Messages.csproj.CoreCompileInputs.cache
+D:\Nastech\NastechPortal\ContractHandler\EventBus.Messages\obj\Debug\net5.0\EventBus.Messages.dll
+D:\Nastech\NastechPortal\ContractHandler\EventBus.Messages\obj\Debug\net5.0\ref\EventBus.Messages.dll
+D:\Nastech\NastechPortal\ContractHandler\EventBus.Messages\obj\Debug\net5.0\EventBus.Messages.pdb

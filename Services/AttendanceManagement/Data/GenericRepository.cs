@@ -50,7 +50,7 @@ namespace AttendanceManagement.Data
                         UserId=result.UserId,
                         Total=12,
                         Year = result.From.Year,
-                        Remaining=(((result.Till-result.From).Days) - 12)
+                        Remaining=(12-((result.Till-result.From).Days) )
                     };
                     await _context.LeaveHistorys.AddAsync(obj);
                 }
@@ -69,7 +69,7 @@ namespace AttendanceManagement.Data
                     };
                     
                     await _context.AddAsync(obj);
-                    dateTime.AddDays(1);
+                    dateTime=dateTime.AddDays(1);
                     
                 }
                 await SaveChanges();

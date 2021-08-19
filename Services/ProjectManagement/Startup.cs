@@ -1,24 +1,20 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-
-using InventoryMangement.Interface;
-using InventoryMangement.Data;
 using Microsoft.EntityFrameworkCore;
-using InventoryMangement.Helpers;
+using ProjectManagement.Data;
+using ProjectManagement.Helper;
+using ProjectManagement.Interface;
+using Newtonsoft.Json;
+using MassTransit;
+using EventBus.Messages.Events;
 
 namespace InventoryManagement
 {
@@ -37,7 +33,9 @@ namespace InventoryManagement
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options => {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
             var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             if(environmentName=="Production")
             {
@@ -52,7 +50,8 @@ namespace InventoryManagement
             }
              
             services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
-            services.AddScoped<ISpecificRepository,SpecificRepository>();
+            services.AddScoped<IProjectRepository,ProjectRepository>();
+            // services.AddScoped<ISpecificRepository,SpecificRepository>();
             services.AddAutoMapper(typeof(MappingProfile));
             
             
@@ -69,9 +68,29 @@ namespace InventoryManagement
                             ValidateAudience = false
                         };
                     });
+
+
+
+
+            //RabbitMQ/MassTransit
+            services.AddMassTransit(config => {
+                
+               
+                
+               config.UsingRabbitMq((ctx , cfg) => {
+                    cfg.Host(_config["RabbitMq:DefaultConnection"]);
+                    
+                    cfg.ConfigureEndpoints(ctx);
+                    
+                });
+                config.AddRequestClient<GetUserByIdEventRequest>();
+                
+            });
+            services.AddMassTransitHostedService();
+
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "InventoryManagement", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProjectManagement", Version = "v1" });
             });
             services.AddCors(opt =>
             {

@@ -22,6 +22,8 @@ namespace UserManagement.Helper
                 .ForMember(x => x.EmployeeId, o => o.MapFrom(m => m.Id))
                 .ForMember(x => x.ShiftTiming, o => o.MapFrom
                 (m => m.ShiftStart.ToString("hh:mm tt") +" "+ m.ShiftEnd.ToString("hh:mm tt")  ));
+                
+            CreateMap<UsersInfoDto,GetUserByIdEventResponse>();
             // CreateMap<UserCheckInEventDto,UserCheckInEvent>();
             // CreateMap<UserCheckOutEventDto,UserCheckOutEvent>();
             // CreateMap<UserGetAttendanceEventRequestDto,UserGetAttendanceEventRequest>();

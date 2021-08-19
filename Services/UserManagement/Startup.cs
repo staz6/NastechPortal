@@ -94,6 +94,8 @@ namespace UserManagement
                 config.AddConsumer<GetUserEventConsumer>();
                 config.AddConsumer<AttendanceRecordConsumer>();
                 config.AddConsumer<GenerateSalarySlipConsumer>();
+                config.AddConsumer<GetUserByIdConsumer>();
+                
                config.UsingRabbitMq((ctx , cfg) => {
                     cfg.Host(_config["RabbitMq:DefaultConnection"]);
                     cfg.ReceiveEndpoint(EventBusConstants.GetAttendaceRecordQueue, c=> {

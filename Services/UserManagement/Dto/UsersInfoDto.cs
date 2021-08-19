@@ -19,5 +19,6 @@ namespace UserManagement.Dto
         public int CurrentSalary { get; set; }
         public string AppUserId { get; set; }
         public string  JoiningDate { get; set; }
+        public string ProfileImage { get; set; }
     }
 }

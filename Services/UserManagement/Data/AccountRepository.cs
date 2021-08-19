@@ -197,28 +197,13 @@ namespace UserManagement.Data
         /// <returns>UsersInfoDto</returns>
         public async Task<UsersInfoDto> getCurrentUser(string userId)
         {
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _context.Employees.Include(c => c.AppUser).FirstOrDefaultAsync(x => x.AppUserId==userId);
+            
+            
             if(user !=null)
             {
-                var employee = await _context.Employees.FirstOrDefaultAsync(x => x.AppUserId == user.Id);
-
-                return new UsersInfoDto
-                {
-                    EmployeeId = employee.Id,
-                    Address = user.Address,
-                    CNIC = employee.CNIC,
-                    CurrentSalary = employee.CurrentSalary,
-                    Designation = employee.Status,
-                    Email = user.Email,
-                    PersonalEmail = user.PersonalEmail,
-                    MobileNumber = user.ContactNumber,
-                    EmergencyNumber = employee.EmergencyNumber,
-                    Name = user.Name,
-                    ShiftTiming = employee.ShiftStart.ToString("hh:mm tt")+ " "+employee.ShiftEnd.ToString("hh:mm tt"),
-                    Status = employee.Status,
-                    AppUserId = employee.AppUserId,
-                    JoiningDate = employee.JoiningDate.ToString("yyyy-MMMM-dd")
-                };
+               var obj = _mapper.Map<Employee,UsersInfoDto>(user);
+            return(obj);
             }
             else{
                 throw new Exception();
