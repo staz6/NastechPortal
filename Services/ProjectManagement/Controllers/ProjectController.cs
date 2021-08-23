@@ -41,7 +41,7 @@ namespace ProjectManagement.Controllers
         [HttpGet("project")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "" + Roles.Employee + "," + Roles.Admin + "")]
 
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        
         public async Task<ActionResult<IReadOnlyList<ProjectGetDto>>> getAllProject()
         {
             if (!ModelState.IsValid) return BadRequest();
@@ -80,7 +80,7 @@ namespace ProjectManagement.Controllers
             catch{
                 return new ObjectResult(new ApiErrorResponse(ErrorStatusCode.InvalidRequest));
             }
-
+    
         }
 
 

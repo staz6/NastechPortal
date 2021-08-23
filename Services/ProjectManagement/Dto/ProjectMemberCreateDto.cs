@@ -7,7 +7,6 @@ namespace ProjectManagement.Dto
         [Required]
         public string AsigneeId { get; set; }
         [Required]
-        public int ProjectId { get; set; }
         public string Role { get; set; }
     }
 }

@@ -2,7 +2,7 @@ using System;
 
 namespace UserManagement.Entities
 {
-    public class Employee
+    public class Employee 
     {
         public int Id { get; set; }
         public int CurrentSalary { get; set; }

@@ -11,6 +11,7 @@ namespace ProjectManagement.Entites
         public string Title { get; set; }
         public string Description { get; set; }
         public string Attachement { get; set; }
+        public string Legend { get; set; }
         public ProjectTaskPiority Piority { get; set; }
         public string Reporter { get; set; }
         public List<ProjectTaskAsignee> ProjectAsignee { get; set; }
@@ -18,6 +19,7 @@ namespace ProjectManagement.Entites
         public DateTime DueDate { get; set; }
         public int Position { get; set; }
         public List<ProjectTaskLog> ProjectTaskLogs{get;set;}
+        public List<ProjectSubTask> ProjectSubTasks{get;set;}
     }
     
 }

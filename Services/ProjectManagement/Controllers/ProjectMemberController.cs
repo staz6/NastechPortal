@@ -33,7 +33,7 @@ namespace ProjectManagement.Controllers
         /// <returns></returns>
         [HttpPost("projectMember")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult> postProject(ProjectMemberCreateDto model)
+        public async Task<ActionResult> postProject(ProjectMemberCreateDtoWithId model)
         {
             if (!ModelState.IsValid) return BadRequest();
             if (model == null) return BadRequest();
