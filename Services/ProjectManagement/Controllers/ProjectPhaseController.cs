@@ -30,17 +30,18 @@ namespace ProjectManagement.Controllers
         }
 
         [HttpGet("projectPhase/{id}")]
-        public async Task<ActionResult<IReadOnlyList<ProjectPhase>>> getProjectPhase(int id)
+        public async Task<ActionResult<IReadOnlyList<ProjectPhasesGetDto>>> getProjectPhase(int id)
         {
             var spec = new ProjectFolderPhasesSpecifcation(id);
             var obj = await _repo.ListAsyncWithSpec(spec);
-            return Ok(obj);
+            var mapObject = _mapper.Map<IReadOnlyList<ProjectPhasesGetDto>>(obj);
+            return Ok(mapObject);
         }
 
         [HttpPost("ProjectPhase/{id}")]
         public async Task<ActionResult> postProjectPhase(ProjectPhaseCreateDto model)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) BadRequest();
             var project = await _projectSubRepo.GetById(model.ProjectSubFolderId);
             if(project==null) return NotFound();
             var mapObject=_mapper.Map<ProjectPhase>(model);
@@ -55,29 +56,36 @@ namespace ProjectManagement.Controllers
             if (!ModelState.IsValid) return BadRequest();
             var project = await _projectSubRepo.GetById(id);
             if(project==null) return NotFound();
-            ProjectPhase obj = new ProjectPhase{
-                Name="To Do",Color="grey",ProjectSubFolderId=project.Id
-            };
-            _repo.Insert(obj);
-            ProjectPhase obj1 = new ProjectPhase{
-                Name="Pending",Color="yello",ProjectSubFolderId=project.Id
-            };
-            _repo.Insert(obj1);
-            ProjectPhase obj2 = new ProjectPhase{
-                Name="In Progress",Color="orange",ProjectSubFolderId=project.Id
-            };
-            _repo.Insert(obj2);
-            ProjectPhase obj3 = new ProjectPhase{
-                Name="In Review",Color="blue",ProjectSubFolderId=project.Id
-            };
-            _repo.Insert(obj3);
-            ProjectPhase obj4 = new ProjectPhase{
-                Name="Done",Color="green",ProjectSubFolderId=project.Id
-            };
-            _repo.Insert(obj4);
-            await _repo.Save();
-            return Ok(new ApiErrorResponse(ErrorStatusCode.CreateSuccess));
+            var spec = new ProjectFolderPhasesSpecifcation(id);
+            var check = await _repo.ListAsyncWithSpec(spec);
+            if(check.Count==0)
+            {
+                ProjectPhase obj = new ProjectPhase{
+                    Name="To Do",Color="grey",ProjectSubFolderId=project.Id
+                };
+                _repo.Insert(obj);
+                ProjectPhase obj1 = new ProjectPhase{
+                    Name="Pending",Color="yello",ProjectSubFolderId=project.Id
+                };
+                _repo.Insert(obj1);
+                ProjectPhase obj2 = new ProjectPhase{
+                    Name="In Progress",Color="orange",ProjectSubFolderId=project.Id
+                };
+                _repo.Insert(obj2);
+                ProjectPhase obj3 = new ProjectPhase{
+                    Name="In Review",Color="blue",ProjectSubFolderId=project.Id
+                };
+                _repo.Insert(obj3);
+                ProjectPhase obj4 = new ProjectPhase{
+                    Name="Done",Color="green",ProjectSubFolderId=project.Id
+                };
+                _repo.Insert(obj4);
+                await _repo.Save();
+                return Ok(new ApiErrorResponse(ErrorStatusCode.CreateSuccess));
 
+            }
+            return BadRequest("Project Phases already exist");
+            
         }
 
     }

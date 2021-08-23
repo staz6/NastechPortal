@@ -4149,19 +4149,19 @@
     ]
   },
   "packageFolders": {
-    "/home/staz/.nuget/packages/": {}
+    "C:\\Users\\staz\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/staz/Documents/Portal/Services/ProjectManagement/ProjectManagement.csproj",
+      "projectUniqueName": "D:\\Nastech\\NastechPortal\\Services\\ProjectManagement\\ProjectManagement.csproj",
       "projectName": "ProjectManagement",
-      "projectPath": "/home/staz/Documents/Portal/Services/ProjectManagement/ProjectManagement.csproj",
-      "packagesPath": "/home/staz/.nuget/packages/",
-      "outputPath": "/home/staz/Documents/Portal/Services/ProjectManagement/obj/",
+      "projectPath": "D:\\Nastech\\NastechPortal\\Services\\ProjectManagement\\ProjectManagement.csproj",
+      "packagesPath": "C:\\Users\\staz\\.nuget\\packages\\",
+      "outputPath": "D:\\Nastech\\NastechPortal\\Services\\ProjectManagement\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/staz/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\staz\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
@@ -4173,8 +4173,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/EventBus.Messages.csproj": {
-              "projectPath": "/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/EventBus.Messages.csproj"
+            "D:\\Nastech\\NastechPortal\\ContractHandler\\EventBus.Messages\\EventBus.Messages.csproj": {
+              "projectPath": "D:\\Nastech\\NastechPortal\\ContractHandler\\EventBus.Messages\\EventBus.Messages.csproj"
             }
           }
         }
@@ -4268,7 +4268,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.301/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }

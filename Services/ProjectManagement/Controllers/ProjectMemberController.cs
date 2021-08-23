@@ -51,7 +51,7 @@ namespace ProjectManagement.Controllers
         public async Task<ActionResult> deleteProjectMemeber(int id)
         {
             if(!ModelState.IsValid) return BadRequest();
-            if(_repo.GetById(id)==null) return NotFound();
+            if(_repo.GetById(id)==null) return NotFound("No Project Memeber with that Id exist");
             _repo.Delete(id);
             await _repo.Save();
             return new ObjectResult(new ApiErrorResponse(ErrorStatusCode.DeleteSuccess));

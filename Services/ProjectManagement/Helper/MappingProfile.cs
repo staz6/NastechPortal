@@ -37,6 +37,13 @@ namespace ProjectManagement.Helper
             CreateMap<ProjectTaskAsignee,ProjectTaskAsigneeGetDto>();
             CreateMap<GetUserByIdEventResponse,ProjectTaskAsigneeGetDto>().ForMember(dest => dest.Id, opt => opt.Ignore());
             
+            CreateMap<ProjectTaskCreateDto,ProjectTask>();
+            CreateMap<ProjectTaskAsigneeCreateDtoWithoutId,ProjectTaskAsignee>();
+
+            //ProjectPhases
+            CreateMap<ProjectPhase,ProjectPhasesGetDto>().ForMember(x => x.createdAt,o => o.MapFrom(m => m.CreatedAt.ToString("MM/dd/yyyy")));
+            
+            
         }
     }
 }

@@ -28,8 +28,17 @@ namespace ProjectManagement.Controllers
             var spec =new ProjectPhaseTaskSpecification(id);
             var obj =await _repo.ListAsyncWithSpec(spec);
             if(obj==null) return NoContent();
-            return Ok();
+            return Ok(obj);
 
+        }
+        [HttpPost("task")]
+        public async Task<ActionResult> postTask(ProjectTaskCreateDto model)
+        {
+            if(!ModelState.IsValid) return BadRequest();
+            var mapObject =_mapper.Map<ProjectTask>(model);
+            _repo.Insert(mapObject);
+            await _repo.Save();
+            return Ok();
         }
 }
 }
