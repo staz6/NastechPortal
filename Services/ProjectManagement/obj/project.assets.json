@@ -241,7 +241,7 @@
           "lib/netstandard2.1/Microsoft.EntityFrameworkCore.Abstractions.dll": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.Analyzers/5.0.7": {
+      "Microsoft.EntityFrameworkCore.Analyzers/5.0.9": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/_._": {}
@@ -1530,17 +1530,17 @@
         "microsoft.entityframeworkcore.abstractions.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Analyzers/5.0.7": {
-      "sha512": "ZShPEOZaQhBZqDObU3+kigEmlEGug37F8v/jpQgVs1XfHrLeXVyk+p94DBH4f+bUUHUbsEEcIbU6OhUBtWZztg==",
+    "Microsoft.EntityFrameworkCore.Analyzers/5.0.9": {
+      "sha512": "eyuPLRFjcF7VWH8qy1uUuMrO02W15n9EXAXnYjCTWgH0SDIeZAa2XZXMZ9U3dvOPtvllMBy0obYA5SSbnpaNoQ==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.analyzers/5.0.7",
+      "path": "microsoft.entityframeworkcore.analyzers/5.0.9",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "analyzers/dotnet/cs/Microsoft.EntityFrameworkCore.Analyzers.dll",
         "lib/netstandard2.0/_._",
-        "microsoft.entityframeworkcore.analyzers.5.0.7.nupkg.sha512",
+        "microsoft.entityframeworkcore.analyzers.5.0.9.nupkg.sha512",
         "microsoft.entityframeworkcore.analyzers.nuspec"
       ]
     },
@@ -4139,6 +4139,7 @@
       "Microsoft.AspNetCore.JsonPatch >= 5.0.9",
       "Microsoft.AspNetCore.Mvc.NewtonsoftJson >= 5.0.9",
       "Microsoft.EntityFrameworkCore >= 5.0.7",
+      "Microsoft.EntityFrameworkCore.Analyzers >= 5.0.9",
       "Microsoft.EntityFrameworkCore.Design >= 5.0.7",
       "Microsoft.EntityFrameworkCore.Sqlite >= 5.0.7",
       "Microsoft.OpenApi >= 1.2.3",
@@ -4148,19 +4149,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\staz\\.nuget\\packages\\": {}
+    "/home/staz/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Nastech\\NastechPortal\\Services\\ProjectManagement\\ProjectManagement.csproj",
+      "projectUniqueName": "/home/staz/Documents/Portal/Services/ProjectManagement/ProjectManagement.csproj",
       "projectName": "ProjectManagement",
-      "projectPath": "D:\\Nastech\\NastechPortal\\Services\\ProjectManagement\\ProjectManagement.csproj",
-      "packagesPath": "C:\\Users\\staz\\.nuget\\packages\\",
-      "outputPath": "D:\\Nastech\\NastechPortal\\Services\\ProjectManagement\\obj\\",
+      "projectPath": "/home/staz/Documents/Portal/Services/ProjectManagement/ProjectManagement.csproj",
+      "packagesPath": "/home/staz/.nuget/packages/",
+      "outputPath": "/home/staz/Documents/Portal/Services/ProjectManagement/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\staz\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/home/staz/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
@@ -4172,8 +4173,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "D:\\Nastech\\NastechPortal\\ContractHandler\\EventBus.Messages\\EventBus.Messages.csproj": {
-              "projectPath": "D:\\Nastech\\NastechPortal\\ContractHandler\\EventBus.Messages\\EventBus.Messages.csproj"
+            "/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/EventBus.Messages.csproj": {
+              "projectPath": "/home/staz/Documents/Portal/ContractHandler/EventBus.Messages/EventBus.Messages.csproj"
             }
           }
         }
@@ -4220,6 +4221,10 @@
             "target": "Package",
             "version": "[5.0.7, )"
           },
+          "Microsoft.EntityFrameworkCore.Analyzers": {
+            "target": "Package",
+            "version": "[5.0.9, )"
+          },
           "Microsoft.EntityFrameworkCore.Design": {
             "target": "Package",
             "version": "[5.0.7, )"
@@ -4263,7 +4268,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.301/RuntimeIdentifierGraph.json"
       }
     }
   }

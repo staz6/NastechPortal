@@ -28,6 +28,17 @@ namespace ProjectManagement.Data
                 var mapObject = _mapper.Map<IReadOnlyList<ProjectGetDto>>(obj);
             for(int i =0;i<obj.Count;i++)
             {
+                try{
+                    var request = _requestClient.Create(new GetUserByIdEventRequest{Id=obj[i].ProjectLead});
+                    var response = await request.GetResponse<GetUserByIdEventResponse>();
+                    mapObject[i].ProjectLeadName=response.Message.Name;
+                    mapObject[i].ProjectLeadEmail=response.Message.Email;
+                    mapObject[i].ProjectLeadProfileImage=response.Message.ProfileImage;
+                    mapObject[i].ProjectLeadEmployeeId=response.Message.EmployeeId;
+                }
+                catch{
+
+                }
                 foreach(var item in obj[i].ProjectMembers)
                 {
                     

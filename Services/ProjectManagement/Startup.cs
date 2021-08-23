@@ -51,6 +51,7 @@ namespace InventoryManagement
              
             services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
             services.AddScoped<IProjectRepository,ProjectRepository>();
+            services.AddScoped<ITaskRepository,TaskRepository>();
             // services.AddScoped<ISpecificRepository,SpecificRepository>();
             services.AddAutoMapper(typeof(MappingProfile));
             
