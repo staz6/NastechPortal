@@ -5,7 +5,7 @@ namespace ProjectManagement.Specification
 {
     public class ProjectFolderPhasesSpecifcation : BaseSpecification<ProjectPhase>
     {
-        public ProjectFolderPhasesSpecifcation(int id) : base(x => x.ProjectSubFolderId==id)
+        public ProjectFolderPhasesSpecifcation(int id) : base(x => x.ProjectId==id)
         {
         }
     }

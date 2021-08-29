@@ -5,7 +5,7 @@ namespace ProjectManagement.Dto
     public class ProjectPhaseCreateDto
     {  
         [Required]
-        public int ProjectSubFolderId { get; set; } 
+        public int ProjectId { get; set; } 
         [Required]
         public string Name { get; set; }
         [Required]

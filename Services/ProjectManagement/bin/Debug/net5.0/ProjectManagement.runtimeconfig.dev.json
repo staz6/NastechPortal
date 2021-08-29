@@ -1,8 +1,8 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
-      "/home/staz/.dotnet/store/|arch|/|tfm|",
-      "/home/staz/.nuget/packages"
+      "C:\\Users\\staz\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\staz\\.nuget\\packages"
     ]
   }
 }
